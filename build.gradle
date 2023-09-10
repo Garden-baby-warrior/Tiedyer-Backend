@@ -1,0 +1,84 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.10'
+    id 'io.spring.dependency-management' version '1.1.3'
+}
+
+group = 'com.cnzakii'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+jar.enabled = true
+bootJar.enabled = true
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+repositories {
+    // 使用阿里云镜像
+    maven {
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        allowInsecureProtocol = true
+    }
+    mavenCentral()
+}
+
+dependencies {
+    // SpringBoot Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // SpringBoot aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    // mysql-connector-java
+    implementation 'com.mysql:mysql-connector-j:8.0.32'
+    // Druid 连接池
+    implementation 'com.alibaba:druid-spring-boot-starter:1.2.15'
+    // mybatis-plus
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.3.2'
+    // MP代码生成器依赖
+    implementation 'com.baomidou:mybatis-plus-generator:3.5.3.2'
+    // 模板引擎依赖
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    // redis依赖
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // redis连接池
+    implementation 'org.apache.commons:commons-pool2'
+    // hutool
+    implementation 'cn.hutool:hutool-all:5.8.21'
+    // 加密依赖
+    implementation 'org.bouncycastle:bcprov-jdk15to18:1.72'
+    // 参数效验
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // sa-Token
+    implementation 'cn.dev33:sa-token-spring-boot3-starter:1.34.0'
+    // sa-Token 整合 Redis （使用 jackson 序列化方式）
+    implementation 'cn.dev33:sa-token-dao-redis-jackson:1.34.0'
+    // Email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // thymeleaf依赖
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // SpringBoot actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // SpringBoot devtools
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // junit5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '--release' << '17'
+}
