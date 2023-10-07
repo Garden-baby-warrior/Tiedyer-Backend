@@ -4,9 +4,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.3'
 }
 
-group = 'com.cnzakii'
-version = '1.0.0'
-
 java {
     sourceCompatibility = '17'
     targetCompatibility = '17'
@@ -14,22 +11,14 @@ java {
 jar.enabled = true
 bootJar.enabled = true
 
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
-
-repositories {
-    // 使用阿里云镜像
-    maven {
-        url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        allowInsecureProtocol = true
-    }
-    mavenCentral()
-}
+group = 'com.cnzakii'
+version = '1.0.0'
 
 dependencies {
     // SpringBoot Web
@@ -81,4 +70,8 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs << '--release' << '17'
+}
+
+test {
+    useJUnitPlatform()
 }
