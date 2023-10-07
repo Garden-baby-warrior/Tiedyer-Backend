@@ -1,6 +1,5 @@
 package com.cnzakii.tiedyer.common.http;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import static com.cnzakii.tiedyer.common.http.ResponseStatus.FAIL;
 import static com.cnzakii.tiedyer.common.http.ResponseStatus.SUCCESS;
@@ -31,13 +29,6 @@ public class ResponseResult<T> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1124864944635622692L;
-
-
-    /**
-     * 当前时间,精确到毫秒
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private LocalDateTime dateTime;
 
     /**
      * 状态码
@@ -70,7 +61,6 @@ public class ResponseResult<T> implements Serializable {
         return ResponseResult.<T>builder().data(data)
                 .message(message)
                 .status(code)
-                .dateTime(LocalDateTime.now())
                 .build();
     }
 
