@@ -1,6 +1,12 @@
 server:
   port: 7576
 
+other:
+  recaptcha:
+    secret: 6LfzU1koAAAAAF2-EZB30JwtTo8EWGYa7FY8rw_x
+
+
+
 spring:
   application:
     name: dyeingpie-backend
@@ -68,7 +74,7 @@ mybatis-plus:
       logic-not-delete-value: 0   # 逻辑未删除
 
 sa-token:
-  token-name: Authentication           # token名称
+  token-name: token           # token名称
   timeout: 2592000            # token有效期，单位s 默认30天, -1代表永不过期
   activity-timeout: 86400     # token临时有效期 (指定时间内无操作就视为token过期) 单位- 秒
   is-concurrent: true         # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
