@@ -1,5 +1,7 @@
 package com.cnzakii.tiedyer.model.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,27 +25,17 @@ public class UserDTO implements Serializable {
     /**
      * 用户id
      */
-    private Long userId;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     /**
-     * 电子邮件,脱敏处理
+     * 昵称
      */
-    private String email;
-
-    /**
-     * 用户名
-     */
-    private String userName;
+    private String nickName;
 
     /**
      * 用户头像地址
      */
     private String avatarPath;
-
-    /**
-     * 用户角色： R_USER / R_MERCHANT
-     */
-    private String role;
-
 
 }

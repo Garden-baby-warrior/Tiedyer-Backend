@@ -11,16 +11,6 @@ package com.cnzakii.tiedyer.common.constant;
  **/
 public interface SystemConstants {
 
-    /**
-     * 默认昵称前缀
-     */
-    String DEFAULT_NICK_NAME_PREFIX = "DyeingPie_";
-
-
-    /**
-     * 默认头像路径
-     */
-    String DEFAULT_AVATAR_PATH = "/avatar/dyeingpie.png";
 
     /**
      * 终端Id

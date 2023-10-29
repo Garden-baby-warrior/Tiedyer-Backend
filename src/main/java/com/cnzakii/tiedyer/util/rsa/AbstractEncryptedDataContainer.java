@@ -1,4 +1,4 @@
-package com.cnzakii.tiedyer.rsa;
+package com.cnzakii.tiedyer.util.rsa;
 
 import lombok.Data;
 
