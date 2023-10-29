@@ -1,14 +1,12 @@
 package com.cnzakii.tiedyer.exception;
 
-
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.NotPermissionException;
 import com.cnzakii.tiedyer.common.http.ResponseResult;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.security.sasl.AuthenticationException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,26 +88,26 @@ public class GlobalExceptionHandler {
     /**
      * 处理认证异常
      *
-     * @param notLoginException notLoginException
+     * @param authenticationException authenticationException
      * @return ResponseResult
      */
     @ResponseBody
-    @ExceptionHandler(NotLoginException.class)
-    public ResponseResult<NotLoginException> processNotLoginException(NotLoginException notLoginException) {
-        log.error("ResponseCode：{},Exception: {}", NO_AUTHENTICATION.getCode(), NO_AUTHENTICATION.getDescription());
-        return ResponseResult.base(NO_AUTHENTICATION, notLoginException.getLocalizedMessage());
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseResult<String> processNotLoginException(AuthenticationException authenticationException) {
+        log.error("ResponseCode：{},Exception: {}", NO_AUTHENTICATION.getCode(), authenticationException.getLocalizedMessage());
+        return ResponseResult.base(NO_AUTHENTICATION, NO_AUTHENTICATION.getDescription());
     }
 
     /**
      * 处理权限异常
      *
-     * @param notPermissionException notPermissionException
+     * @param accessDeniedException accessDeniedException
      * @return ResponseResult
      */
     @ResponseBody
-    @ExceptionHandler(NotPermissionException.class)
-    public ResponseResult<NotPermissionException> processNotPermissionException(NotPermissionException notPermissionException) {
-        log.error("ResponseCode：{},Exception: {}", NO_AUTHORITIES.getCode(), NO_AUTHORITIES.getDescription());
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseResult<String> processNotPermissionException(AccessDeniedException accessDeniedException) {
+        log.error("ResponseCode：{},Exception: {}", NO_AUTHORITIES.getCode(), accessDeniedException.getLocalizedMessage());
         return ResponseResult.base(NO_AUTHORITIES, NO_AUTHORITIES.getDescription());
     }
 
