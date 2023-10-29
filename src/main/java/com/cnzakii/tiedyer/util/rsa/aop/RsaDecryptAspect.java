@@ -1,9 +1,9 @@
-package com.cnzakii.tiedyer.rsa.aop;
+package com.cnzakii.tiedyer.util.rsa.aop;
 
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.cnzakii.tiedyer.rsa.AbstractEncryptedDataContainer;
 import com.cnzakii.tiedyer.util.MyJsonUtils;
+import com.cnzakii.tiedyer.util.rsa.AbstractEncryptedDataContainer;
 import jakarta.annotation.Resource;
 import jakarta.validation.*;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ public class RsaDecryptAspect {
      * @return 解密和校验后的结果对象。
      * @throws Throwable 可能抛出的异常。
      */
-    @Around("@annotation(RsaDecrypt)")
+    @Around("@annotation(com.cnzakii.tiedyer.util.rsa.aop.RsaDecrypt)")
     public Object decrypt(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         // 进行参数校验

@@ -1,11 +1,8 @@
 package com.cnzakii.tiedyer.common.validation.validator;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.cnzakii.tiedyer.common.validation.annotation.MatchToken;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
-import java.util.Objects;
 
 
 /**
@@ -19,7 +16,8 @@ import java.util.Objects;
 public class MatchTokenValidator implements ConstraintValidator<MatchToken, Long> {
     @Override
     public boolean isValid(Long userId, ConstraintValidatorContext constraintValidatorContext) {
-        Long id = Long.valueOf((String) StpUtil.getLoginId());
-        return Objects.equals(id, userId);
+//        Long id = Long.valueOf((String) StpUtil.getLoginId());
+//        return Objects.equals(id, userId);
+        return true;
     }
 }

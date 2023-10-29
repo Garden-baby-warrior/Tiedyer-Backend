@@ -1,4 +1,4 @@
-package com.cnzakii.tiedyer.rsa.aop;
+package com.cnzakii.tiedyer.util.rsa.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
