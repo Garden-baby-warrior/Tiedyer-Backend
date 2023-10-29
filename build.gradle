@@ -25,6 +25,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // SpringBoot aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    // SpringBoot security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
     // mysql-connector-java
     implementation 'com.mysql:mysql-connector-j:8.0.32'
     // Druid 连接池
@@ -41,18 +47,16 @@ dependencies {
     implementation 'org.apache.commons:commons-pool2'
     // hutool
     implementation 'cn.hutool:hutool-all:5.8.21'
+    // commons-lang3
+    implementation 'org.apache.commons:commons-lang3'
     // 加密依赖
     implementation 'org.bouncycastle:bcprov-jdk15to18:1.72'
     // 参数效验
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    // sa-Token
-    implementation 'cn.dev33:sa-token-spring-boot3-starter:1.34.0'
-    // sa-Token 整合 Redis （使用 jackson 序列化方式）
-    implementation 'cn.dev33:sa-token-dao-redis-jackson:1.34.0'
-    // Email
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
-    // thymeleaf依赖
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    // Email
+//    implementation 'org.springframework.boot:spring-boot-starter-mail'
+//    // thymeleaf依赖
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // SpringBoot actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // SpringBoot devtools

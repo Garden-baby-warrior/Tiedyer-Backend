@@ -8,9 +8,15 @@ package com.cnzakii.tiedyer.common.constant;
  **/
 public interface RedisConstants {
 
+
     /**
-     * 已经被注册的邮箱的列表
+     * 用户信息前缀
      */
-    String REGISTERED_EMAIL_LIST = "list:email:registered:";
+    String USER_INFO = "user:info:";
+
+    /**
+     * 用户信息过期时间，一天
+     */
+    Long USER_INFO_TTL = 1L;
 
 }

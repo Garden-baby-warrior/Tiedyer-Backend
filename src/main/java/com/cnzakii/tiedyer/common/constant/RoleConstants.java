@@ -7,5 +7,5 @@ package com.cnzakii.tiedyer.common.constant;
  * @since 2023-09-04
  **/
 public interface RoleConstants {
-    String ROLE_USER = "R_USER";
+    String ROLE_USER = "user";
 }
