@@ -46,6 +46,11 @@ public class User implements Serializable {
     private String avatarPath;
 
     /**
+     * 用户游戏积分
+     */
+    private Integer points;
+
+    /**
      * 用户角色
      */
     private String role;

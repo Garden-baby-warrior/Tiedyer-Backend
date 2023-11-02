@@ -69,7 +69,7 @@ api:
   # 微信登录API
   # 需要申请微信一键登录的API，否则将导致无法使用微信一键登录功能
   wx:
-    appId: 2     # TODO 填入appId
+    appId: wxecd0ce3eb243cc75     # 填入appId
     secret: 3    # TODO 填入secret
     grantType: authorization_code
 
