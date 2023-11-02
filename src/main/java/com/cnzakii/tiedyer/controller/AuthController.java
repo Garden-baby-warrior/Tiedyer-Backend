@@ -4,7 +4,7 @@ import com.cnzakii.tiedyer.common.http.ResponseResult;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.User;
 import com.cnzakii.tiedyer.exception.BusinessException;
-import com.cnzakii.tiedyer.model.dto.AuthUserDTO;
+import com.cnzakii.tiedyer.model.dto.user.AuthUserDTO;
 import com.cnzakii.tiedyer.security.wechat.WeChatAuthenticationToken;
 import com.cnzakii.tiedyer.service.TokenService;
 import com.cnzakii.tiedyer.service.UserService;
@@ -13,7 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户身份认证接口
@@ -68,7 +71,7 @@ public class AuthController {
      * @param refreshToken refreshToken
      * @return accessToken
      */
-    @PutMapping("/token/refresh")
+    @PostMapping("/token/refresh")
     public ResponseResult<String> refreshAccessToken(@RequestParam String refreshToken) {
         String userId = tokenService.getUserIdByRefreshToken(refreshToken);
         if (StringUtils.isBlank(userId)) {

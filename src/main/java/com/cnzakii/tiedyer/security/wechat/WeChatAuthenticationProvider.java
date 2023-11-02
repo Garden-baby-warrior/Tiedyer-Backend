@@ -1,6 +1,6 @@
 package com.cnzakii.tiedyer.security.wechat;
 
-import com.cnzakii.tiedyer.model.dto.AuthUserDTO;
+import com.cnzakii.tiedyer.model.dto.user.AuthUserDTO;
 import com.cnzakii.tiedyer.service.AuthService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

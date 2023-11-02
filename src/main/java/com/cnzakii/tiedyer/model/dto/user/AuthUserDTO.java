@@ -1,4 +1,4 @@
-package com.cnzakii.tiedyer.model.dto;
+package com.cnzakii.tiedyer.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

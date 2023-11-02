@@ -1,3 +1,4 @@
+
 import com.cnzakii.tiedyer.TiedyerBackendApplication;
 import com.cnzakii.tiedyer.util.token.JwtUtils;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = TiedyerBackendApplication.class)
 public class TestToken {
-
 
     @Test
     void createJwt(){

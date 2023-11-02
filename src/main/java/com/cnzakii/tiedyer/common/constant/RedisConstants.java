@@ -19,4 +19,15 @@ public interface RedisConstants {
      */
     Long USER_INFO_TTL = 1L;
 
+
+    /**
+     * 已经完成每日答题的用户列表
+     */
+    String DAILY_ANSWERED_USERS_LIST = "game:answered:daily:list";
+
+    /**
+     * 用户每日答题列表
+     */
+    String DAILY_QUESTION_GAME_LIST = "game:question:daily:list:";
+
 }

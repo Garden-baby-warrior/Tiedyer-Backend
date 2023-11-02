@@ -27,7 +27,9 @@ public class CodeGeneration {
                 "jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai",
                 "root",
                 "**secret**",
-                "t_user"
+                "t_question_bank",
+                "t_user_points_history",
+                "t_user_question_history"
         );
     }
 
