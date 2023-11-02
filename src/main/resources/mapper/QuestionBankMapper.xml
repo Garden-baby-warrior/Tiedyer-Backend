@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnzakii.tiedyer.mapper.QuestionBankMapper">
+
+    <!-- 随机生成答题列表 -->
+    <select id="randomSelectQuestionList" resultType="com.cnzakii.tiedyer.entity.Question">
+        SELECT * FROM t_question_bank
+        <if test="exclude != null and exclude.size() > 0">
+            WHERE id NOT IN
+            <foreach collection="exclude" item="excludedId" open="(" separator="," close=")">
+                #{excludedId}
+            </foreach>
+        </if>
+        ORDER BY RAND()
+        LIMIT #{questionNum}
+    </select>
+
+</mapper>

@@ -1,6 +1,6 @@
 package com.cnzakii.tiedyer.service;
 
-import com.cnzakii.tiedyer.model.dto.AuthUserDTO;
+import com.cnzakii.tiedyer.model.dto.user.AuthUserDTO;
 
 /**
  * 认证接口

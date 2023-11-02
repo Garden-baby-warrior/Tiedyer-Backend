@@ -2,8 +2,8 @@ package com.cnzakii.tiedyer.controller;
 
 import com.cnzakii.tiedyer.common.http.ResponseResult;
 import com.cnzakii.tiedyer.entity.User;
-import com.cnzakii.tiedyer.model.dto.UserDTO;
-import com.cnzakii.tiedyer.model.request.UpdateUserInfoRequest;
+import com.cnzakii.tiedyer.model.dto.user.UserDTO;
+import com.cnzakii.tiedyer.model.request.user.UpdateUserInfoRequest;
 import com.cnzakii.tiedyer.service.UserService;
 import com.cnzakii.tiedyer.util.MyBeanUtils;
 import jakarta.annotation.Resource;
