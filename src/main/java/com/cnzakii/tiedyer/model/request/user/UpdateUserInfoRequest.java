@@ -1,4 +1,4 @@
-package com.cnzakii.tiedyer.model.request;
+package com.cnzakii.tiedyer.model.request.user;
 
 import com.cnzakii.tiedyer.common.validation.annotation.MatchToken;
 import jakarta.validation.constraints.NotBlank;
