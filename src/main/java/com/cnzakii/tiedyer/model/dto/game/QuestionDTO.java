@@ -40,4 +40,9 @@ public class QuestionDTO implements Serializable {
     @JsonIgnore
     private String answer;
 
+    /**
+     * 解析，不传给前端
+     */
+    @JsonIgnore
+    private String analysis;
 }

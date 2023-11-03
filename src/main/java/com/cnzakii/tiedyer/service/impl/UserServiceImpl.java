@@ -9,11 +9,13 @@ import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.User;
 import com.cnzakii.tiedyer.exception.BusinessException;
 import com.cnzakii.tiedyer.mapper.UserMapper;
+import com.cnzakii.tiedyer.service.UserPointsHistoryService;
 import com.cnzakii.tiedyer.service.UserService;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private Snowflake snowflake;
+
+    @Resource
+    private UserPointsHistoryService pointsHistoryService;
 
 
     /**
@@ -125,6 +130,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ResponseStatus.SERVER_ERROR, "更新用户信息失败");
         }
 
+        // 更新Redis缓存
+        String key = USER_INFO + userId;
+        stringRedisTemplate.delete(key);
+        getUserInfoById(userId);
+    }
+
+    /**
+     * 更新用户积分
+     *
+     * @param userId 用户id
+     * @param points 增加的积分数
+     * @param description 描述
+     */
+    @Transactional
+    @Override
+    public void updatePoints(Long userId, int points,String description) {
+        // 添加积分
+        userMapper.updatePoints(userId, points);
+        // 添加日志
+        pointsHistoryService.addPointLog(userId, points, description);
         // 更新Redis缓存
         String key = USER_INFO + userId;
         stringRedisTemplate.delete(key);
