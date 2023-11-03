@@ -13,4 +13,12 @@ import com.cnzakii.tiedyer.entity.UserPointsHistory;
  */
 public interface UserPointsHistoryService extends IService<UserPointsHistory> {
 
+    /**
+     * 为用户添加积分
+     *
+     * @param userId      用户ID
+     * @param points      添加的积分数
+     * @param description 积分描述
+     */
+    void addPointLog(Long userId, int points, String description);
 }

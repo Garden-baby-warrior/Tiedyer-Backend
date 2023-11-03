@@ -2,8 +2,8 @@ package com.cnzakii.tiedyer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cnzakii.tiedyer.entity.Question;
+import com.cnzakii.tiedyer.model.dto.game.AnswerDTO;
 import com.cnzakii.tiedyer.model.dto.game.QuestionDTO;
-import com.cnzakii.tiedyer.model.dto.game.QuizInfo;
 
 import java.util.Map;
 
@@ -27,12 +27,33 @@ public interface QuestionGameService extends IService<Question> {
 
 
     /**
+     * 验证用户答案,并获取正确答案和解析
+     *
+     * @param userId     用户ID
+     * @param questionId 问题ID
+     * @param answer     用户答案
+     * @return 正确答案和解析
+     */
+    AnswerDTO verifyUerAnswer(Long userId, Long questionId,String answer);
+
+
+    /**
+     * 根据用户id和问题id获取正确答案和解析
+     *
+     * @param userId     用户ID
+     * @param questionId 问题ID
+     * @return 正确答案和解析
+     */
+    AnswerDTO getAnswerAndAnalysis(Long userId, Long questionId);
+
+
+    /**
      * 根据userId获取用户每日问题
      *
      * @param userId 用户id
-     * @return 题目
+     * @return 题目集合
      */
-    QuizInfo getDailyQuestionByUserId(Long userId);
+    QuestionDTO[] getDailyQuestionByUserId(Long userId);
 
 
     /**
@@ -51,5 +72,6 @@ public interface QuestionGameService extends IService<Question> {
      * @return QuestionDTO
      */
     QuestionDTO convertQuestionToDTO(Question question);
+
 
 }

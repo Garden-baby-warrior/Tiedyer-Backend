@@ -6,19 +6,23 @@ import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Question;
 import com.cnzakii.tiedyer.exception.BusinessException;
 import com.cnzakii.tiedyer.mapper.QuestionBankMapper;
+import com.cnzakii.tiedyer.model.dto.game.AnswerDTO;
 import com.cnzakii.tiedyer.model.dto.game.QuestionDTO;
-import com.cnzakii.tiedyer.model.dto.game.QuizInfo;
 import com.cnzakii.tiedyer.service.QuestionGameService;
 import com.cnzakii.tiedyer.service.UserQuestionHistoryService;
-import com.cnzakii.tiedyer.util.MyJsonUtils;
+import com.cnzakii.tiedyer.service.UserService;
+import com.cnzakii.tiedyer.util.MyDateTimeUtils;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.cnzakii.tiedyer.common.constant.RedisConstants.DAILY_ANSWERED_USERS_LIST;
@@ -45,6 +49,10 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
     private UserQuestionHistoryService historyService;
 
 
+    @Resource
+    private UserService userService;
+
+
     /**
      * 查看用户今日是否答过题
      *
@@ -57,36 +65,110 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
         return BooleanUtils.isTrue(b);
     }
 
+    /**
+     * 验证用户答案,并获取正确答案和解析
+     *
+     * @param userId     用户ID
+     * @param questionId 问题ID
+     * @param answer     用户答案
+     * @return 正确答案和解析
+     */
+    @Transactional
+    @Override
+    public AnswerDTO verifyUerAnswer(Long userId, Long questionId, String answer) {
+        // 根据用户id和问题id获取正确答案和解析
+        AnswerDTO answerDTO = getAnswerAndAnalysis(userId, questionId);
+
+        int isCorrect = 0;
+
+        // 验证用户答案，如果正确则添加积分
+        if (Objects.equals(answer, answerDTO.getAnswer())) {
+            int points = 1;
+            // 添加积分
+            userService.updatePoints(userId, points, "用户每日答题正确");
+            isCorrect = 1;
+        }
+
+        // 将本题添加进用户答题记录
+        historyService.saveHistory(userId, questionId, isCorrect);
+
+        // 删除用户答题列表中对应的题目
+        stringRedisTemplate.opsForHash().delete(DAILY_QUESTION_GAME_LIST + userId, String.valueOf(questionId));
+
+        // 查看用户的剩余题目
+        Map<Object, Object> questionsMap = stringRedisTemplate.opsForHash().entries(DAILY_QUESTION_GAME_LIST + userId);
+        if (CollectionUtils.isEmpty(questionsMap)) {
+            // 如果为空，则说明用户已经答题完成
+            stringRedisTemplate.opsForSet().add(DAILY_ANSWERED_USERS_LIST, String.valueOf(userId));
+            stringRedisTemplate.delete(DAILY_QUESTION_GAME_LIST + userId);
+        }
+
+
+        return answerDTO;
+    }
+
+
+    /**
+     * 根据用户id和问题id获取正确答案和解析
+     *
+     * @param userId     用户ID
+     * @param questionId 问题ID
+     * @return 正确答案和解析
+     */
+    @Override
+    public AnswerDTO getAnswerAndAnalysis(Long userId, Long questionId) {
+        // 尝试从Redis中获取用户答题列表
+        Map<Object, Object> questionsMap = stringRedisTemplate.opsForHash().entries(DAILY_QUESTION_GAME_LIST + userId);
+        if (CollectionUtils.isEmpty(questionsMap)) {
+            throw new BusinessException(ResponseStatus.FAIL);
+        }
+
+        // 根据questionId获取对应题目
+        String json = (String) questionsMap.get(String.valueOf(questionId));
+        if (StringUtils.isBlank(json)) {
+            throw new BusinessException(ResponseStatus.REQUEST_ERROR, "题目不存在");
+        }
+
+        QuestionDTO questionDTO = JSONUtil.toBean(json, QuestionDTO.class);
+
+        AnswerDTO answerDTO = new AnswerDTO();
+        answerDTO.setAnswer(questionDTO.getAnswer());
+        answerDTO.setAnalysis(questionDTO.getAnalysis());
+
+        return answerDTO;
+    }
+
 
     /**
      * 根据userId获取用户每日问题
      *
      * @param userId 用户id
-     * @return 题目
+     * @return 题目集合
      */
     @Override
-    public QuizInfo getDailyQuestionByUserId(Long userId) {
-        QuestionDTO questionDTO;
-        int remaining;
+    public QuestionDTO[] getDailyQuestionByUserId(Long userId) {
+        Map<String, QuestionDTO> resultMap;
 
         // 尝试从Redis中获取用户答题列表
         Map<Object, Object> questionsMap = stringRedisTemplate.opsForHash().entries(DAILY_QUESTION_GAME_LIST + userId);
-
-        if (CollectionUtils.isEmpty(questionsMap)) {
+        if (!CollectionUtils.isEmpty(questionsMap)) {
+            // 直接获取resultMap
+            resultMap = questionsMap.entrySet().stream().collect(Collectors.toMap(
+                    entry -> (String) entry.getKey(),
+                    entry -> JSONUtil.toBean((String) entry.getValue(), QuestionDTO.class)
+            ));
+        } else {
             // 如果为空，则初始化用户答题列表
             Map<String, String> initMap = initDailyQuestionByUserId(userId);
-            Set<String> keys = initMap.keySet();
             // 获取题目
-            questionDTO = MyJsonUtils.parseObject(initMap.get(keys.iterator().next()), QuestionDTO.class);
-            remaining = initMap.size() - 1;
-        } else {
-            Set<Object> keys = questionsMap.keySet();
-            questionDTO = MyJsonUtils.parseObject((String) questionsMap.get(keys.iterator().next()), QuestionDTO.class);
-            remaining = questionsMap.size() - 1;
+            resultMap = initMap.entrySet().stream().collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    entry -> JSONUtil.toBean(entry.getValue(), QuestionDTO.class)
+            ));
         }
 
-
-        return new QuizInfo(questionDTO, remaining);
+        //  返回题目集合
+        return resultMap.values().toArray(new QuestionDTO[0]);
     }
 
     /**
@@ -109,7 +191,6 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
             throw new BusinessException(ResponseStatus.SERVER_ERROR, "无法获取足够的问题");
         }
 
-
         // 转化成Question转换成DTO
         Map<String, String> questionMap = list.stream()
                 .map(this::convertQuestionToDTO)
@@ -117,6 +198,10 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
 
         // 存入Redis
         stringRedisTemplate.opsForHash().putAll(DAILY_QUESTION_GAME_LIST + userId, questionMap);
+        // 计算时间距离当天午夜（24点）还有多少秒
+        long second = MyDateTimeUtils.secondsUntilMidnight();
+        // 设置过期时间
+        stringRedisTemplate.expire(DAILY_QUESTION_GAME_LIST + userId, second, TimeUnit.SECONDS);
 
         return questionMap;
     }
@@ -160,6 +245,7 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
         questionDTO.setTitle(title);
         questionDTO.setOptions(optionMap);
         questionDTO.setAnswer(answerIndex);
+        questionDTO.setAnalysis(question.getAnalysis());
 
 
         return questionDTO;
