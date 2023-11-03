@@ -1,26 +1,25 @@
 package com.cnzakii.tiedyer.common.validation.annotation;
 
 
-
-import com.cnzakii.tiedyer.common.validation.validator.FixedValuesValidator;
+import com.cnzakii.tiedyer.common.validation.validator.FixedStrValuesValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
 /**
- * 校验Integer数值只能是某一组固定的数组
+ * 校验String数值只能是某一组固定的数组
  *
  * @author Zaki
  * @version 1.0
  * @since 2023-05-15
  **/
 @Documented
-@Constraint(validatedBy = {FixedValuesValidator.class})
+@Constraint(validatedBy = {FixedStrValuesValidator.class})
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FixedValues {
-    int[] values();
+public @interface FixedStrValues {
+    String[] values();
 
     String message() default "Invalid value";
 
@@ -33,6 +32,6 @@ public @interface FixedValues {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        FixedValues[] value();
+        FixedStrValues[] value();
     }
 }

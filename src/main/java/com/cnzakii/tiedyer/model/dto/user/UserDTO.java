@@ -38,4 +38,9 @@ public class UserDTO implements Serializable {
      */
     private String avatarPath;
 
+    /**
+     * 用户游戏积分
+     */
+    private Integer points;
+
 }
