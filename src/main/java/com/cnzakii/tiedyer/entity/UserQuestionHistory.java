@@ -1,12 +1,14 @@
 package com.cnzakii.tiedyer.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -16,8 +18,9 @@ import java.io.Serializable;
  * @author zaki
  * @since 2023-11-02
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 @TableName("t_user_question_history")
 public class UserQuestionHistory implements Serializable {
@@ -28,7 +31,8 @@ public class UserQuestionHistory implements Serializable {
     /**
      * 历史记录Id
      */
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 用户id
@@ -44,4 +48,10 @@ public class UserQuestionHistory implements Serializable {
      * 是否答题正确
      */
     private Integer isCorrect;
+
+    /**
+     * 记录时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 }

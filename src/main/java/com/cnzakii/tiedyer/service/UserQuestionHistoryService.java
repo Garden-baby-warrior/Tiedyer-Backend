@@ -22,4 +22,13 @@ public interface UserQuestionHistoryService extends IService<UserQuestionHistory
      * @return 问题Id列表
      */
     List<Long> getQuestionIdListByUserInd(Long userId);
+
+    /**
+     * 保存用户答题记录
+     *
+     * @param userId     用户id
+     * @param questionId 题目id
+     * @param isCorrect 是否答题正确
+     */
+    void saveHistory(Long userId, Long questionId,Integer isCorrect);
 }

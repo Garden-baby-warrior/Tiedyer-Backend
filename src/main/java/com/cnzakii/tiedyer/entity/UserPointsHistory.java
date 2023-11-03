@@ -1,8 +1,6 @@
 package com.cnzakii.tiedyer.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -31,7 +29,7 @@ public class UserPointsHistory implements Serializable {
     /**
      * 积分记录id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -52,5 +50,6 @@ public class UserPointsHistory implements Serializable {
     /**
      * 记录时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

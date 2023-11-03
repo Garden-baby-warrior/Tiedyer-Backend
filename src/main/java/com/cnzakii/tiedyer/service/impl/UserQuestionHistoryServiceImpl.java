@@ -46,4 +46,22 @@ public class UserQuestionHistoryServiceImpl extends ServiceImpl<UserQuestionHist
                 .map(UserQuestionHistory::getQuestionId)
                 .toList();
     }
+
+
+    /**
+     * 保存用户答题记录
+     *
+     * @param userId     用户id
+     * @param questionId 题目id
+     * @param isCorrect  是否答题正确
+     */
+    @Override
+    public void saveHistory(Long userId, Long questionId, Integer isCorrect) {
+        UserQuestionHistory history = new UserQuestionHistory();
+        history.setUserId(userId);
+        history.setQuestionId(questionId);
+        history.setIsCorrect(isCorrect);
+
+        historyMapper.insert(history);
+    }
 }

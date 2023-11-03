@@ -47,4 +47,12 @@ public interface UserService extends IService<User> {
     void updateUserInfo(Long userId, String nickName, String avatarPath);
 
 
+    /**
+     * 添加用户积分
+     *
+     * @param userId      用户id
+     * @param points      增加的积分数
+     * @param description 描述
+     */
+    void updatePoints(Long userId, int points,String description);
 }
