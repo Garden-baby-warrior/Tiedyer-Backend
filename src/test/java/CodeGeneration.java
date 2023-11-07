@@ -42,21 +42,19 @@ public class CodeGeneration {
     public static void generation(String url, String username, String password, String... tableName) {
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
-                    builder.author("zaki") // TODO
+                    builder.author("zaki") // TODO 填入作者名
                             .outputDir(System.getProperty("user.dir") + "/src/main/java")// 指定输出目录
                             .dateType(DateType.TIME_PACK); // 配置时间策略
                 })
 
-                .packageConfig(builder -> {
-                    builder.entity("entity") // 实体类包名
-                            .parent("com.cnzakii.tiedyer")// TODO 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
-                            .controller("controller")// 控制层包名
-                            .mapper("mapper")// mapper层包名
-                            .service("service")// service层包名
-                            .serviceImpl("service.impl")// service实现类包名
-                            //自定义mapper.xml文件输出目录
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, System.getProperty("user.dir") + "/src/main/resources/mapper"));
-                })
+                .packageConfig(builder -> builder.entity("entity") // 实体类包名
+                        .parent("com.cnzakii.tiedyer")// TODO 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
+                        .controller("controller")// 控制层包名
+                        .mapper("mapper")// mapper层包名
+                        .service("service")// service层包名
+                        .serviceImpl("service.impl")// service实现类包名
+                        //自定义mapper.xml文件输出目录
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, System.getProperty("user.dir") + "/src/main/resources/mapper")))
                 .strategyConfig(builder -> {
                     //设置要生成的表名
                     builder.addInclude(tableName)
