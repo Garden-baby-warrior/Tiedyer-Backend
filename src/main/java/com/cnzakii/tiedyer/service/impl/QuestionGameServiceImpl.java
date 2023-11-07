@@ -99,8 +99,14 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
         Map<Object, Object> questionsMap = stringRedisTemplate.opsForHash().entries(DAILY_QUESTION_GAME_LIST + userId);
         if (CollectionUtils.isEmpty(questionsMap)) {
             // 如果为空，则说明用户已经答题完成
-            stringRedisTemplate.opsForSet().add(DAILY_ANSWERED_USERS_LIST, String.valueOf(userId));
+            // 删除用户今日答题列表
             stringRedisTemplate.delete(DAILY_QUESTION_GAME_LIST + userId);
+            // 将用户id添加进今日已经答题的列表中
+            stringRedisTemplate.opsForSet().add(DAILY_ANSWERED_USERS_LIST, String.valueOf(userId));
+            // 计算时间距离当天午夜（24点）还有多少秒
+            long second = MyDateTimeUtils.secondsUntilMidnight();
+            // 设置过期时间
+            stringRedisTemplate.expire(DAILY_ANSWERED_USERS_LIST, second, TimeUnit.SECONDS);
         }
 
 
@@ -243,6 +249,7 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setId(String.valueOf(id));
         questionDTO.setTitle(title);
+        questionDTO.setImage(question.getImage());
         questionDTO.setOptions(optionMap);
         questionDTO.setAnswer(answerIndex);
         questionDTO.setAnalysis(question.getAnalysis());
