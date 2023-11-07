@@ -39,6 +39,11 @@ public class Question implements Serializable {
     private String title;
 
     /**
+     * 图片路径
+     */
+    private String image;
+
+    /**
      * 选项（逗号分割）
      */
     private String option;
