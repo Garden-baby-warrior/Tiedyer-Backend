@@ -59,4 +59,11 @@ public interface ShippingAddressService extends IService<ShippingAddress> {
     ShippingAddressDTO convertShippingAddressToDTO(ShippingAddress shippingAddress);
 
 
+    /**
+     * 根据userId和addressId 删除收货地址信息
+     *
+     * @param userId     用户ID
+     * @param addressId 收货地址id
+     */
+    void removeByUserIdAndAddressId(Long userId, Long addressId);
 }

@@ -4,8 +4,8 @@ package com.cnzakii.tiedyer.controller;
 import com.cnzakii.tiedyer.common.http.ResponseResult;
 import com.cnzakii.tiedyer.entity.ShippingAddress;
 import com.cnzakii.tiedyer.model.dto.shop.ShippingAddressDTO;
-import com.cnzakii.tiedyer.model.request.shop.SaveShippingAddressRequest;
-import com.cnzakii.tiedyer.model.request.shop.UpdateShippingAddressRequest;
+import com.cnzakii.tiedyer.model.request.address.SaveShippingAddressRequest;
+import com.cnzakii.tiedyer.model.request.address.UpdateShippingAddressRequest;
 import com.cnzakii.tiedyer.service.ShippingAddressService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
@@ -89,6 +89,21 @@ public class ShippingAddressController {
         return ResponseResult.success();
     }
 
+    /**
+     * 删除用户收货地址
+     *
+     * @param addressId 地址Id
+     * @return success
+     */
+    @DeleteMapping("/{addressId}")
+    public ResponseResult<String> deleteShippingAddress(@PathVariable("addressId") Long addressId) {
+        // 获取用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+
+        shippingAddressService.removeByUserIdAndAddressId(userId, addressId);
+        return ResponseResult.success();
+    }
 
     /**
      * 获取用户收货地址列表
