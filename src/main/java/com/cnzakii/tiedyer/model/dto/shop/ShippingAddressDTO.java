@@ -19,8 +19,9 @@ public class ShippingAddressDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 7166581222452760934L;
 
-    // 自增id
-    private Integer id;
+    // 收货地址id
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long addressId;
 
     // 用户id
     @JsonSerialize(using = ToStringSerializer.class)

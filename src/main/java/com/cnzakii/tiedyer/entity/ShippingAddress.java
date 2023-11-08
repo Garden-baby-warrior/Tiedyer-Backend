@@ -28,8 +28,8 @@ public class ShippingAddress implements Serializable {
     /**
      * 收货地址id
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 用户id

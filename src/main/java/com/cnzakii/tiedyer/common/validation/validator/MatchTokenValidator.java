@@ -3,6 +3,10 @@ package com.cnzakii.tiedyer.common.validation.validator;
 import com.cnzakii.tiedyer.common.validation.annotation.MatchToken;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Objects;
 
 
 /**
@@ -16,8 +20,10 @@ import jakarta.validation.ConstraintValidatorContext;
 public class MatchTokenValidator implements ConstraintValidator<MatchToken, Long> {
     @Override
     public boolean isValid(Long userId, ConstraintValidatorContext constraintValidatorContext) {
-//        Long id = Long.valueOf((String) StpUtil.getLoginId());
-//        return Objects.equals(id, userId);
-        return true;
+        // 获取用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long id = Long.valueOf((String) authentication.getPrincipal());
+
+        return Objects.equals(id, userId);
     }
 }
