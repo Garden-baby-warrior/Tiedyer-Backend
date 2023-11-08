@@ -3,9 +3,9 @@
 <mapper namespace="com.cnzakii.tiedyer.mapper.ShippingAddressMapper">
 
     <!-- 范围内的优先级自增1 -->
-    <update id="incrementPrioritiesInRange" parameterType="java.util.Map">
+    <update id="updatePrioritiesInRange" parameterType="java.util.Map">
         UPDATE t_shipping_address
-        SET priority = priority + 1
+        SET priority = priority + #{value}
         WHERE user_id = #{userId}
           AND priority &gt;= #{start}
           AND priority &lt;= #{end}

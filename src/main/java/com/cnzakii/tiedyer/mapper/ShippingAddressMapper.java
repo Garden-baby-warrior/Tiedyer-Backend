@@ -17,12 +17,14 @@ import org.apache.ibatis.annotations.Param;
 public interface ShippingAddressMapper extends BaseMapper<ShippingAddress> {
 
     /**
-     * 范围内的优先级自增1
+     * 实现范围内的优先级自增或者自减
      *
      * @param userId 用户id
+     * @param value 优先级变化的数值
      * @param start  起始优先级
      * @param end    结束优先级
      */
-    void incrementPrioritiesInRange(@Param("userId") Long userId, @Param("start") Integer start, @Param("end") Integer end);
+    void updatePrioritiesInRange(@Param("userId") Long userId, @Param("value")Integer value , @Param("start") Integer start, @Param("end") Integer end);
+
 
 }
