@@ -21,7 +21,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchToken {
 
-    String message() default "id与token不一致";
+    String message() default "Token与Id不符";
 
     Class<?>[] groups() default {};
 

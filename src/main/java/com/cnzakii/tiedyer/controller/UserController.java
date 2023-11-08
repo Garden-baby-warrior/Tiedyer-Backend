@@ -9,6 +9,7 @@ import com.cnzakii.tiedyer.util.MyBeanUtils;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -43,9 +44,15 @@ public class UserController {
     }
 
 
+    /**
+     * 更新用户信息
+     *
+     * @param request 用户信息更新请求体
+     * @return success
+     */
     @PutMapping("/info")
-    public ResponseResult<String> updateUserInfo(@RequestBody UpdateUserInfoRequest request) {
-        Long userId = request.getId();
+    public ResponseResult<String> updateUserInfo(@Validated @RequestBody UpdateUserInfoRequest request) {
+        Long userId = request.getUserId();
         String nickName = request.getNickName();
         String avatarPath = request.getAvatarPath();
         // 更新用户信息

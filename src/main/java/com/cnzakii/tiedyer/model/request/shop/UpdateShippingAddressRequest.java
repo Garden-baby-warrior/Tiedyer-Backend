@@ -9,16 +9,18 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 保存用户收货地址请求体
+ * TODO
  *
  * @author Zaki
- * @since 2023-11-01
+ * @since 2023-11-08
  **/
 @Data
-public class SaveShippingAddressRequest implements Serializable {
-
+public class UpdateShippingAddressRequest implements Serializable {
     @Serial
-    private static final long serialVersionUID = -5898649989304540621L;
+    private static final long serialVersionUID = 7689949331441820399L;
+
+    @NotNull(message = "收货地址Id不能为空")
+    private Long addressId;
 
     // 联系人姓名
     @NotEmpty(message = "联系人不能为空")
@@ -39,3 +41,4 @@ public class SaveShippingAddressRequest implements Serializable {
     // 是否为默认
     private boolean defaultAddress;
 }
+
