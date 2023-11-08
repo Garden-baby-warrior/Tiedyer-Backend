@@ -19,7 +19,7 @@ public class UpdateUserInfoRequest implements Serializable {
      * 用户id
      */
     @MatchToken
-    private Long id;
+    private Long userId;
 
     /**
      * 昵称
