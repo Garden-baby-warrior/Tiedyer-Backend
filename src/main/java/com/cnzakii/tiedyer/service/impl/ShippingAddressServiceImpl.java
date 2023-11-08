@@ -73,7 +73,7 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
 
         // 先更新优先级
         if (!CollectionUtils.isEmpty(list) && isDefault) {
-            shippingAddressMapper.incrementPrioritiesInRange(userId, 1, list.size());
+            shippingAddressMapper.updatePrioritiesInRange(userId, 1, 1, list.size());
         }
 
         // 再插入新数据
@@ -133,7 +133,7 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
 
         // 先更新优先级
         if (list.size() > 1 && !Objects.equals(oldPriority, newPriority)) {
-            shippingAddressMapper.incrementPrioritiesInRange(userId, 1, oldPriority);
+            shippingAddressMapper.updatePrioritiesInRange(userId, 1, 1, oldPriority);
         }
 
         // 再更新数据
@@ -184,5 +184,48 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
         shippingAddressDTO.setArea(area);
 
         return shippingAddressDTO;
+    }
+
+    /**
+     * 根据userId和addressId 删除收货地址信息
+     *
+     * @param userId    用户ID
+     * @param addressId 收货地址id
+     */
+    @Transactional
+    @Override
+    public void removeByUserIdAndAddressId(Long userId, Long addressId) {
+        // 先获取用户购物地址列表
+        List<ShippingAddress> list = getShippingAddressListByUserId(userId);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BusinessException(ResponseStatus.REQUEST_ERROR, "收货地址不存在");
+        }
+
+        // 根据userId和addressId获取元素
+        ShippingAddress shippingAddress = list.stream()
+                .filter(s -> Objects.equals(s.getUserId(), userId) && Objects.equals(s.getId(), addressId))
+                .findFirst()
+                .orElse(null);
+
+        if (shippingAddress == null) {
+            throw new BusinessException(ResponseStatus.REQUEST_ERROR, "收货地址不存在");
+        }
+
+        // 获取优先级
+        Integer priority = shippingAddress.getPriority();
+
+        // 先更新优先级
+        if (list.size() > 1 && priority < list.size()) {
+            shippingAddressMapper.updatePrioritiesInRange(userId, -1, priority + 1, list.size());
+        }
+
+        int i = shippingAddressMapper.delete(new LambdaQueryWrapper<ShippingAddress>()
+                .eq(ShippingAddress::getUserId, userId)
+                .eq(ShippingAddress::getId, addressId));
+
+        if (i != 1) {
+            throw new BusinessException(ResponseStatus.SERVER_ERROR, "删除收货地址失败");
+        }
+
     }
 }
