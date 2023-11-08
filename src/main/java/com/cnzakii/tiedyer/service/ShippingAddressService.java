@@ -26,8 +26,20 @@ public interface ShippingAddressService extends IService<ShippingAddress> {
      * @param isDefault    是否设置为默认地址
      * @return 如果保存成功则返回ShippingAddress，保存失败返回null
      */
-    ShippingAddress saveShippingAddress(Long userId, String contactName, String contactPhone, String area, String address,boolean isDefault);
+    ShippingAddress saveShippingAddress(Long userId, String contactName, String contactPhone, String area, String address, boolean isDefault);
 
+    /**
+     * 更新用户收货地址
+     *
+     * @param userId       用户ID
+     * @param addressId    收货地址ID
+     * @param contactName  联系人
+     * @param contactPhone 联系电话
+     * @param area         地区
+     * @param address      地址
+     * @param isDefault    是否设置为默认地址
+     */
+    void updateShippingAddress(Long userId, Long addressId, String contactName, String contactPhone, String area, String address, boolean isDefault);
 
     /**
      * 根据用户id获取用户购物地址列表
