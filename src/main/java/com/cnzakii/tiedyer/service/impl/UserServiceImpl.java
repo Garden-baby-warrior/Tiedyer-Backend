@@ -60,6 +60,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setId(id);
         user.setOpenId(openId);
         user.setRole(ROLE_USER);
+        user.setNickName("tiedyer");
+        user.setAvatarPath("");
+        user.setPoints(0);
 
         int i = userMapper.insert(user);
         if (i == 0) {
