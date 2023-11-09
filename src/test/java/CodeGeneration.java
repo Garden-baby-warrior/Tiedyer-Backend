@@ -27,10 +27,8 @@ public class CodeGeneration {
                 "jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai",
                 "root",
                 "4Qg-R2etwEvnv",
-                "t_category",
-                "t_spu",
-                "t_spu_spec",
-                "t_sku"
+                "t_order",
+                "t_logistics"
         );
     }
 

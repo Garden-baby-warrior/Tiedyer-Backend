@@ -60,6 +60,11 @@ public class Spu implements Serializable {
     private Integer sales;
 
     /**
+     * 产地
+     */
+    private String productionPlace;
+
+    /**
      * 是否有规格，0为单一规格，1为多规格
      */
     private Integer useSpec;
