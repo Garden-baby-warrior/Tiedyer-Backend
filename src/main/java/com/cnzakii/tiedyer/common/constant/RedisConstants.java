@@ -19,6 +19,11 @@ public interface RedisConstants {
      */
     Long USER_INFO_TTL = 1L;
 
+    /**
+     * 用户购物车前缀
+     */
+    String USER_SHOPPING_CART = "shopping:cart:";
+
 
     /**
      * 已经完成每日答题的用户列表
