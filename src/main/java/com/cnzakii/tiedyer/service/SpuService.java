@@ -8,9 +8,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 产品表-spu 服务类
  * </p>
  *
- * @author zaki
- * @since 2023-11-09
+ * @author xyt
+ * @since 2023-11-12
  */
 public interface SpuService extends IService<Spu> {
 
+    Goods[] getGoodsByLable();
 }

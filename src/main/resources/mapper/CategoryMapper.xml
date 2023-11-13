@@ -14,4 +14,9 @@
         id, name, priority
     </sql>
 
+    <select id="getInforByLable">
+        select t_spu.id id, title goodsName, production_place productionPlace, image pictureAddress, sales, base_price price, t_spu_spec.values yardage,category_name lable
+        from t_spu JOIN t_category JOIN t_spu_spec
+        where t_category.id = t_spu.category_id and t_spu.id = t_spu_spec.spu_id and t_category.categoty_name = #{lable};
+    </select>
 </mapper>
