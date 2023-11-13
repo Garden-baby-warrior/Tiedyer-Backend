@@ -9,10 +9,11 @@ import org.apache.ibatis.annotations.Mapper;
  * 产品表-spu Mapper 接口
  * </p>
  *
- * @author zaki
- * @since 2023-11-09
+ * @author xyt
+ * @since 2023-11-12
  */
 @Mapper
 public interface SpuMapper extends BaseMapper<Spu> {
 
+    public Goods[] getInforByLable();
 }
