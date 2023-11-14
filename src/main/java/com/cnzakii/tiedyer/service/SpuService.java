@@ -1,7 +1,8 @@
 package com.cnzakii.tiedyer.service;
 
-import com.cnzakii.tiedyer.entity.Spu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cnzakii.tiedyer.entity.Spu;
+import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
 
 /**
  * <p>
@@ -13,5 +14,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SpuService extends IService<Spu> {
 
-    Goods[] getGoodsByLable();
+    // Goods[] getGoodsByLable();
+
+
+    /**
+     * 根据spuId获取SpuDTO对象
+     *
+     * @param spuId 产品Id
+     * @return SpuDTO对象
+     */
+    SpuDTO getSpuDTObySpuId(Long spuId);
 }

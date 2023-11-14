@@ -2,21 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnzakii.tiedyer.mapper.CategoryMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.cnzakii.tiedyer.entity.Category">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="priority" property="priority" />
-    </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, name, priority
-    </sql>
-
-    <select id="getInforByLable">
-        select t_spu.id id, title goodsName, production_place productionPlace, image pictureAddress, sales, base_price price, t_spu_spec.values yardage,category_name lable
-        from t_spu JOIN t_category JOIN t_spu_spec
-        where t_category.id = t_spu.category_id and t_spu.id = t_spu_spec.spu_id and t_category.categoty_name = #{lable};
-    </select>
 </mapper>

@@ -1,8 +1,8 @@
-package com.cnzakii.tiedyer.model.dto.shop;
+package com.cnzakii.tiedyer.model.request.shop;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2023-11-09
  **/
 @Data
-public class InsertShoppingInfoRequest implements Serializable {
+public class ShoppingInfoRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 8756227730899732933L;
@@ -22,11 +22,14 @@ public class InsertShoppingInfoRequest implements Serializable {
     /**
      * 商品id
      */
+    @NotNull(message = "商品ID不能为null")
     private Long skuId;
 
     /**
      * 购买的商品数量
      */
+    @NotNull
+    @Min(value = 1, message = "num无效")
     private Integer num;
 
 }

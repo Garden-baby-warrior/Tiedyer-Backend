@@ -1,7 +1,7 @@
 package com.cnzakii.tiedyer.service;
 
-import com.cnzakii.tiedyer.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cnzakii.tiedyer.entity.Category;
 
 /**
  * <p>
@@ -13,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CategoryService extends IService<Category> {
 
-    Goods[] getGoodsByLable(String lable);
+//    Goods[] getGoodsByLable(String lable);
 }
