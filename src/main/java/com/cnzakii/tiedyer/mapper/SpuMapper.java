@@ -1,7 +1,7 @@
 package com.cnzakii.tiedyer.mapper;
 
-import com.cnzakii.tiedyer.entity.Spu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cnzakii.tiedyer.entity.Spu;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,5 +15,4 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SpuMapper extends BaseMapper<Spu> {
 
-    public Goods[] getInforByLable();
 }

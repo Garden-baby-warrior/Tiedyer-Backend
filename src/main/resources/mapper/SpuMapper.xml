@@ -15,15 +15,4 @@
         <result column="deleted" property="deleted" />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, category_id, title, image, base_price, sales, use_spec, create_time, deleted
-    </sql>
-
-    <select id="getInforByLable">
-        select t_spu.id id, title goodsName, production_place productionPlace, image pictureAddress, sales, base_price price, t_spu_spec.values yardage,category_name lable
-        from t_spu JOIN t_category JOIN t_spu_spec
-        where t_category.id = t_spu.category_id and t_spu.id = t_spu_spec.spu_id
-        ORDER BY t_spu.sales desc LIMIT 20;
-    </select>
 </mapper>
