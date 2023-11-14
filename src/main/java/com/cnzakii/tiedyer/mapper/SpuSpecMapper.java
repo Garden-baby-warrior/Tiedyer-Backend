@@ -1,7 +1,7 @@
 package com.cnzakii.tiedyer.mapper;
 
-import com.cnzakii.tiedyer.entity.SpuSpec;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cnzakii.tiedyer.entity.SpuSpec;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

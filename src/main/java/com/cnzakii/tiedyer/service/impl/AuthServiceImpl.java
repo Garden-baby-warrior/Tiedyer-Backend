@@ -21,7 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.Objects;
 
-import static com.cnzakii.tiedyer.common.http.ResponseStatus.*;
+import static com.cnzakii.tiedyer.common.http.ResponseStatus.NO_AUTHENTICATION;
+import static com.cnzakii.tiedyer.common.http.ResponseStatus.SERVER_ERROR;
 
 
 /**

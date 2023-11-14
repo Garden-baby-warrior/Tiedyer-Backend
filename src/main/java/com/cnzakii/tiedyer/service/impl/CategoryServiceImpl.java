@@ -1,9 +1,9 @@
 package com.cnzakii.tiedyer.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cnzakii.tiedyer.entity.Category;
 import com.cnzakii.tiedyer.mapper.CategoryMapper;
 import com.cnzakii.tiedyer.service.CategoryService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
-    Goods[] getGoodsByLable(String lable){
-        return CategoryMapper.selectArrays(new LambdaQueryWrapper<Goods[]>().eq(Goods::getLable, lable));
-    }
+//    Goods[] getGoodsByLable(String lable){
+//        return CategoryMapper.selectArrays(new LambdaQueryWrapper<Goods[]>().eq(Goods::getLable, lable));
+//    }
 }
