@@ -16,6 +16,25 @@ public interface SkuService extends IService<Sku> {
 
 
     /**
+     * 减少库存
+     *
+     * @param skuId  商品ID
+     * @param change 变化的库存数量
+     */
+    void decreaseStock(Long skuId, Integer change);
+
+
+
+    /**
+     * 增加库存
+     *
+     * @param skuId  商品ID
+     * @param change 变化的库存数量
+     */
+    void increaseStock(Long skuId, Integer change);
+
+
+    /**
      * 将Sku转化成SkuDTO对象
      *
      * @param sku sku
@@ -23,4 +42,6 @@ public interface SkuService extends IService<Sku> {
      */
     SkuDTO convertSkuToDTO(Sku sku);
 
+
+  
 }

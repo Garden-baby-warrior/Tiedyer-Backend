@@ -13,5 +13,4 @@ import com.cnzakii.tiedyer.entity.Category;
  */
 public interface CategoryService extends IService<Category> {
 
-//    Goods[] getGoodsByLable(String lable);
 }

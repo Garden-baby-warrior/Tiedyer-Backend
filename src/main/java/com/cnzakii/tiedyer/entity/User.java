@@ -66,7 +66,7 @@ public class User implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     @TableLogic(value = "0", delval = "1")
-    private Integer isDeleted;
+    private Integer deleted;
 
 
 }

@@ -45,6 +45,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // redis连接池
     implementation 'org.apache.commons:commons-pool2'
+    // RabbitMQ
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     // hutool
     implementation 'cn.hutool:hutool-all:5.8.21'
     // commons-lang3

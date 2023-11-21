@@ -1,10 +1,9 @@
 package com.cnzakii.tiedyer.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serial;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *
+ * Oder 实体类
  * </p>
  *
  * @author zaki
@@ -24,6 +23,7 @@ import java.time.LocalDateTime;
 @Setter
 @Accessors(chain = true)
 @TableName("t_order")
+@ToString
 public class Order implements Serializable {
 
     @Serial
@@ -71,12 +71,21 @@ public class Order implements Serializable {
     private Integer status;
 
     /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 逻辑删除
      */
+    @TableField(fill = FieldFill.INSERT)
+    @TableLogic(value = "0", delval = "1")
     private Integer deleted;
 }
