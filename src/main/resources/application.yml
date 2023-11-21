@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: tiedyer-backen
+    name: tiedyer-backend
   data:
     # redis 配置
     redis:
