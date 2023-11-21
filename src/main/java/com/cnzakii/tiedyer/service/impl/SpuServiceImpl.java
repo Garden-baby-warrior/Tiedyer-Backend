@@ -30,10 +30,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Resource
     private SpuSpecService specService;
 
-    //    Goods[] getGoodsByLable(){
-//        return SpuMapper.selectArrays(new LambdaQueryWrapper<Goods[]>().eq(Goods::getsale));
-//    }
-
 
     /**
      * 根据spuId获取SpuDTO对象
@@ -44,26 +40,25 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     @Override
     public SpuDTO getSpuDTObySpuId(Long spuId) {
         Spu spu = spuMapper.selectById(spuId);
-        if (spu == null) {
-            return null;
-        }
-        List<SpuSpecDTO> specList = null;
-        if (spu.getUseSpec() == 1) {
-            // 获取规格参数
-            specList = specService.getSpecListBySpuId(spuId);
-        }
-        return convertSpuToDTO(spu, specList);
+        return (spu == null) ? null : convertSpuToDTO(spu);
+
     }
+
 
 
     /**
      * 将Spu对象转化成SpuDTO对象
      *
      * @param spu      Spu对象
-     * @param specList Spu对象的规格，当useSpec为0时为null即可
      * @return SpuDTO对象
      */
-    public SpuDTO convertSpuToDTO(Spu spu, List<SpuSpecDTO> specList) {
+    public SpuDTO convertSpuToDTO(Spu spu ){
+        List<SpuSpecDTO> specList = null;
+        if (spu.getUseSpec() == 1) {
+            // 获取规格参数
+            specList = specService.getSpecListBySpuId(spu.getId());
+        }
+
         SpuDTO spuDTO = MyBeanUtils.copyProperties(spu, SpuDTO.class);
 
         spuDTO.setSpec(specList);
