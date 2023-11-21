@@ -14,8 +14,6 @@ import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
  */
 public interface SpuService extends IService<Spu> {
 
-    // Goods[] getGoodsByLable();
-
 
     /**
      * 根据spuId获取SpuDTO对象
@@ -24,4 +22,6 @@ public interface SpuService extends IService<Spu> {
      * @return SpuDTO对象
      */
     SpuDTO getSpuDTObySpuId(Long spuId);
+
+
 }
