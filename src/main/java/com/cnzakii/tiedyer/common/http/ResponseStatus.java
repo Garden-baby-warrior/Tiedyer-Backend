@@ -18,7 +18,7 @@ public enum ResponseStatus {
 
     SUCCESS("200", "success"),                      // 请求成功
     FAIL("501", "failed"),                          // 请求失败
-    REQUEST_ERROR("400", "Request Error"),           // 请求参数错误
+    REQUEST_ERROR("400", "Illegal request"),           // 请求参数错误
     NO_AUTHENTICATION("401", "No Authentication"),  // 没有认证(token)
     NO_AUTHORITIES("403", "No Authorities"),        // 没有权限
     SERVER_ERROR("500", "Server Error"),            // 服务器内部错误
