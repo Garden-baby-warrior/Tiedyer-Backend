@@ -156,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = getUserInfoById(userId);
 
         String oldIconPath = user.getAvatarPath();
-        if (StringUtils.isBlank(oldIconPath)) {
+        if (StringUtils.isNotBlank(oldIconPath)) {
             // 删除旧的avatar
             MyFileUtils.deleteFile(oldIconPath);
         }
@@ -197,11 +197,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Transactional
     @Override
-    public void updatePoints(Long userId, int points, String description) {
+    public void increasePoints(Long userId, int points, String description) {
         // 添加积分
-        userMapper.updatePoints(userId, points);
+        userMapper.increasePoints(userId, points);
         // 添加日志
         pointsHistoryService.addPointLog(userId, points, description);
+        // 更新Redis缓存
+        String key = USER_INFO + userId;
+        stringRedisTemplate.delete(key);
+        getUserInfoById(userId);
+    }
+
+    /**
+     * 减少用户积分
+     *
+     * @param userId      用户ID
+     * @param points      减少的积分数
+     * @param description 描述
+     */
+    @Override
+    public void decreasePoints(Long userId, int points, String description) {
+        // 减少积分
+        int i = userMapper.decreasePoints(userId, points);
+        if (i == 0) {
+            throw new BusinessException(ResponseStatus.FAIL, "积分不足");
+        }
+        // 添加日志
+        pointsHistoryService.addPointLog(userId, -points, description);
         // 更新Redis缓存
         String key = USER_INFO + userId;
         stringRedisTemplate.delete(key);

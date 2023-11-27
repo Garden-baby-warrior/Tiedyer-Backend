@@ -1,6 +1,6 @@
 package com.cnzakii.tiedyer.service;
 
-import com.cnzakii.tiedyer.model.dto.shop.CommodityDTO;
+import com.cnzakii.tiedyer.model.dto.shop.PreSelectedCommodityDTO;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public interface ShoppingCartService {
      * @param userId 用户id
      * @return list
      */
-    List<CommodityDTO> getCommodityListByUserId(Long userId);
+    List<PreSelectedCommodityDTO> getCommodityListByUserId(Long userId);
 
 
     /**

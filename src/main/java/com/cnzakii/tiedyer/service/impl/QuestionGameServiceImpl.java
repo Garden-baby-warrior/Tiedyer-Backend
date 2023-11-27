@@ -85,7 +85,7 @@ public class QuestionGameServiceImpl extends ServiceImpl<QuestionBankMapper, Que
         if (Objects.equals(answer, answerDTO.getAnswer())) {
             int points = 1;
             // 添加积分
-            userService.updatePoints(userId, points, "用户每日答题正确");
+            userService.increasePoints(userId, points, "用户每日答题正确");
             isCorrect = 1;
         }
 

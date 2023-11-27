@@ -2,11 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnzakii.tiedyer.mapper.UserMapper">
 
-    <!-- 更新用户积分 -->
-    <update id="updatePoints" parameterType="java.util.Map">
+    <!-- 增加用户积分 -->
+    <update id="increasePoints" parameterType="java.util.Map">
         UPDATE t_user
         SET points = points + #{points}
         WHERE id = #{userId}
+    </update>
+
+    <!-- 减少用户积分 -->
+    <update id="decreasePoints">
+        UPDATE t_user
+        SET points = points - #{points}
+        WHERE id = #{userId}
+          AND points &gt;= #{points}
     </update>
 
 

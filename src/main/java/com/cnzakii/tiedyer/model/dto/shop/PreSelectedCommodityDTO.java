@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommodityDTO implements Serializable {
+public class PreSelectedCommodityDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 952927581455445809L;
 
@@ -29,7 +29,6 @@ public class CommodityDTO implements Serializable {
      * 商品id
      */
     private SkuDTO detail;
-
 
     /**
      * 购买的商品数量
