@@ -2,6 +2,7 @@ package com.cnzakii.tiedyer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cnzakii.tiedyer.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * user服务接口
@@ -38,13 +39,23 @@ public interface UserService extends IService<User> {
     User getUserInfoByOpenId(String openId);
 
     /**
-     * 根据userId更新用户昵称和头像
+     * 根据userId更新用户昵称
      *
      * @param userId     用户ID
      * @param nickName   昵称
-     * @param avatarPath 头像路径
+     *
      */
-    void updateUserInfo(Long userId, String nickName, String avatarPath);
+    void updateUserInfo(Long userId, String nickName);
+
+
+    /**
+     * 更新用户头像
+     *
+     * @param userId 用户id
+     * @param avatar   头像
+     * @return 头像地址
+     */
+    String updateUserAvatar(Long userId, MultipartFile avatar);
 
 
     /**
@@ -55,4 +66,6 @@ public interface UserService extends IService<User> {
      * @param description 描述
      */
     void updatePoints(Long userId, int points,String description);
+
+
 }
