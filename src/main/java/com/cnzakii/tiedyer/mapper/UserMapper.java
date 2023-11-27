@@ -22,5 +22,13 @@ public interface UserMapper extends BaseMapper<User> {
      * @param userId 用户id
      * @param points 增加的积分数
      */
-    void updatePoints(@Param("userId") Long userId, @Param("points") int points);
+    int increasePoints(@Param("userId") Long userId, @Param("points") int points);
+
+    /**
+     * 减少用户积分
+     *
+     * @param userId 用户id
+     * @param points 减少的积分数
+     */
+    int decreasePoints(@Param("userId") Long userId, @Param("points") int points);
 }
