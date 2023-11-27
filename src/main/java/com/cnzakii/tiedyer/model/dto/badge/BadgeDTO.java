@@ -45,13 +45,13 @@ public class BadgeDTO implements Serializable {
     /**
      * 徽章是否已经兑换过
      */
-    private boolean collected;
+    private boolean redeemed;
 
     /**
      * 徽章被兑换的时间，当collected为true时，该字段才有值
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
-    private LocalDateTime collectTime;
+    private LocalDateTime redeemTime;
 
 }

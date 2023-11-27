@@ -6,9 +6,7 @@ import com.cnzakii.tiedyer.service.UserBadgeService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 徽章接口
@@ -26,6 +24,25 @@ public class BadgeController {
 
 
     /**
+     * 用户兑换徽章
+     *
+     * @param badgeId 徽章ID
+     * @return 兑换结果
+     */
+    @PostMapping("/redeem/{badgeId}")
+    public ResponseResult<String> RedeemBadge(@PathVariable("badgeId") Long badgeId) {
+        // 获取用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+
+        // 兑换徽章
+        userBadgeService.redeemBadge(userId,badgeId);
+
+        return ResponseResult.success("兑换成功");
+    }
+
+
+    /**
      * 获取用户的徽章兑换情况
      *
      * @return 徽章列表
@@ -39,7 +56,6 @@ public class BadgeController {
         BadgeResult badgeResult = userBadgeService.getBadgeResult(userId);
         return ResponseResult.success(badgeResult);
     }
-
 
 
 }

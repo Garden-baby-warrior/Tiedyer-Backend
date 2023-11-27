@@ -41,9 +41,8 @@ public interface UserService extends IService<User> {
     /**
      * 根据userId更新用户昵称
      *
-     * @param userId     用户ID
-     * @param nickName   昵称
-     *
+     * @param userId   用户ID
+     * @param nickName 昵称
      */
     void updateUserInfo(Long userId, String nickName);
 
@@ -52,7 +51,7 @@ public interface UserService extends IService<User> {
      * 更新用户头像
      *
      * @param userId 用户id
-     * @param avatar   头像
+     * @param avatar 头像
      * @return 头像地址
      */
     String updateUserAvatar(Long userId, MultipartFile avatar);
@@ -65,7 +64,15 @@ public interface UserService extends IService<User> {
      * @param points      增加的积分数
      * @param description 描述
      */
-    void updatePoints(Long userId, int points,String description);
+    void increasePoints(Long userId, int points, String description);
 
 
+    /**
+     * 减少用户积分
+     *
+     * @param userId      用户ID
+     * @param points      减少的积分数
+     * @param description 描述
+     */
+    void decreasePoints(Long userId, int points, String description);
 }

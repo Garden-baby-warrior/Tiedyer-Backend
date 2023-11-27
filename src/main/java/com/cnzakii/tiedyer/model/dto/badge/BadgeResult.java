@@ -21,12 +21,12 @@ public class BadgeResult implements Serializable {
 
     public BadgeResult() {
         this.result = new ArrayList<>();
-        this.collectedNum = 0;
+        this.redeemedNum = 0;
     }
 
-    public BadgeResult(List<BadgeDTO> result, Integer collectedNum) {
+    public BadgeResult(List<BadgeDTO> result, Integer redeemedNum) {
         this.result = result;
-        this.collectedNum = collectedNum;
+        this.redeemedNum = redeemedNum;
     }
 
     /**
@@ -37,6 +37,6 @@ public class BadgeResult implements Serializable {
     /**
      * 已经兑换的徽章数量
      */
-    private Integer collectedNum;
+    private Integer redeemedNum;
 
 }

@@ -3,7 +3,7 @@ package com.cnzakii.tiedyer.service.impl;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Sku;
 import com.cnzakii.tiedyer.exception.BusinessException;
-import com.cnzakii.tiedyer.model.dto.shop.CommodityDTO;
+import com.cnzakii.tiedyer.model.dto.shop.PreSelectedCommodityDTO;
 import com.cnzakii.tiedyer.model.dto.shop.SkuDTO;
 import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
 import com.cnzakii.tiedyer.service.ShoppingCartService;
@@ -106,14 +106,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      * @return list
      */
     @Override
-    public List<CommodityDTO> getCommodityListByUserId(Long userId) {
+    public List<PreSelectedCommodityDTO> getCommodityListByUserId(Long userId) {
         String key = USER_SHOPPING_CART + userId;
 
         // 先尝试获取该用户的购物车信息
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(key);
 
         Set<Object> skuSet = map.keySet();
-        List<CommodityDTO> result = new ArrayList<>(skuSet.size());
+        List<PreSelectedCommodityDTO> result = new ArrayList<>(skuSet.size());
         for (Object skuId : skuSet) {
             String skuStr = String.valueOf(skuId);
             // 获取商品信息
@@ -121,9 +121,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             SkuDTO skuDTO = skuService.convertSkuToDTO(sku);
             // 获取产品信息
             SpuDTO spuDTO = spuService.getSpuDTObySpuId(sku.getSpuId());
-            // 组装成CommodityDTO
-            CommodityDTO commodityDTO = new CommodityDTO(spuDTO, skuDTO, Integer.parseInt((String) map.get(skuStr)));
-            result.add(commodityDTO);
+            // 组装成PreSelectedCommodityDTO
+            PreSelectedCommodityDTO preSelectedCommodityDTO = new PreSelectedCommodityDTO(spuDTO,  skuDTO, Integer.parseInt((String) map.get(skuStr)));
+            result.add(preSelectedCommodityDTO);
         }
 
         return result;
