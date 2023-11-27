@@ -14,6 +14,15 @@ import com.cnzakii.tiedyer.model.dto.badge.BadgeResult;
  */
 public interface UserBadgeService extends IService<UserBadge> {
 
+
+    /**
+     * 兑换徽章
+     *
+     * @param userId  用户ID
+     * @param badgeId 徽章ID
+     */
+    void redeemBadge(Long userId, Long badgeId);
+
     /**
      * 根据userId获取徽章获取情况
      *
@@ -21,4 +30,6 @@ public interface UserBadgeService extends IService<UserBadge> {
      * @return 徽章获取情况
      */
     BadgeResult getBadgeResult(Long userId);
+
+
 }
