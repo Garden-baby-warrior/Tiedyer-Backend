@@ -27,9 +27,4 @@ public class UpdateUserInfoRequest implements Serializable {
     @NotBlank(message = "昵称不能为空")
     private String nickName;
 
-    /**
-     * 用户头像地址
-     */
-    @NotBlank(message = "头像路径不能为空")
-    private String avatarPath;
 }
