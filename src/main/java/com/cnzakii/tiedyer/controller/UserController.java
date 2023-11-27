@@ -7,10 +7,12 @@ import com.cnzakii.tiedyer.model.request.user.UpdateUserInfoRequest;
 import com.cnzakii.tiedyer.service.UserService;
 import com.cnzakii.tiedyer.util.MyBeanUtils;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户相关接口
@@ -54,11 +56,23 @@ public class UserController {
     public ResponseResult<String> updateUserInfo(@Validated @RequestBody UpdateUserInfoRequest request) {
         Long userId = request.getUserId();
         String nickName = request.getNickName();
-        String avatarPath = request.getAvatarPath();
+
         // 更新用户信息
-        userService.updateUserInfo(userId, nickName, avatarPath);
+        userService.updateUserInfo(userId, nickName);
 
         return ResponseResult.success();
+    }
+
+
+    @PostMapping("/upload/avatar")
+    public ResponseResult<String> updateUserAvatar(@Validated @NotNull MultipartFile avatar){
+        // 获取用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+
+        String avatarPath = userService.updateUserAvatar(userId, avatar);
+
+        return ResponseResult.success(avatarPath);
     }
 
 
