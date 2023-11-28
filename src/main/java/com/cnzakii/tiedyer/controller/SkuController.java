@@ -1,12 +1,16 @@
 package com.cnzakii.tiedyer.controller;
 
+import com.cnzakii.tiedyer.common.http.ResponseResult;
+import com.cnzakii.tiedyer.model.dto.shop.CommodityDetail;
+import com.cnzakii.tiedyer.service.SkuService;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- * 商品表-sku 前端控制器
- * </p>
+ * 商品详情接口
  *
  * @author zaki
  * @since 2023-11-09
@@ -14,5 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sku")
 public class SkuController {
+
+    @Resource
+    private SkuService skuService;
+
+
+    /**
+     * 根据spuId获取商品详情
+     *
+     * @param spuId spuId
+     * @return 商品详情
+     */
+    @GetMapping("/detail/{spuId}")
+    public ResponseResult<CommodityDetail> getCommodityDetail(@PathVariable("spuId") Long spuId) {
+        CommodityDetail result = skuService.getCommodityDetail(spuId);
+        return ResponseResult.success(result);
+    }
+
 
 }
