@@ -27,7 +27,7 @@ public class SpuDTO implements Serializable {
     /**
      * 分类id
      */
-    private Long categoryId;
+    private Integer categoryId;
 
     /**
      * 标题
