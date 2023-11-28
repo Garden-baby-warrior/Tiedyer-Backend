@@ -3,6 +3,10 @@ package com.cnzakii.tiedyer.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cnzakii.tiedyer.entity.Spu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +19,21 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SpuMapper extends BaseMapper<Spu> {
 
+    /**
+     * 获取推荐列表，按照销量降序
+     *
+     * @param limitDateTime 限制时间
+     * @param limitSize     限制查询个数
+     * @return spu列表
+     */
+    List<Spu> selectRecommendList(@Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
+
+    /**
+     * 根据分类ID获取Spu列表，按照销量降序
+     *
+     * @param limitDateTime 限制时间
+     * @param limitSize     限制查询个数
+     * @return spu列表
+     */
+    List<Spu> selectListByCategory(@Param("categoryId")Integer categoryId, @Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
 }

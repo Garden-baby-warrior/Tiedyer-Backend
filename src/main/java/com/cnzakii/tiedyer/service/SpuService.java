@@ -2,6 +2,7 @@ package com.cnzakii.tiedyer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cnzakii.tiedyer.entity.Spu;
+import com.cnzakii.tiedyer.model.dto.PageBean;
 import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
 
 /**
@@ -23,5 +24,22 @@ public interface SpuService extends IService<Spu> {
      */
     SpuDTO getSpuDTObySpuId(Long spuId);
 
+    /**
+     * 获取推荐列表
+     *
+     * @param timestamp 限制时间戳
+     * @param pageSize  限制个数
+     * @return 分页查询结果
+     */
+    PageBean<Spu> getSpuResultByRecommend(Long timestamp, Integer pageSize);
 
+    /**
+     * 根据分类id获取Spu列表
+     *
+     * @param categoryId 分类id
+     * @param timestamp  限制时间戳
+     * @param pageSize   限制个数
+     * @return 分页查询结果
+     */
+    PageBean<Spu> getSpuResultByCategory(Integer categoryId, Long timestamp, Integer pageSize);
 }

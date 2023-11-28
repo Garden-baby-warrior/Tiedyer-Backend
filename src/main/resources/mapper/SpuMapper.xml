@@ -3,5 +3,22 @@
 <mapper namespace="com.cnzakii.tiedyer.mapper.SpuMapper">
 
 
+    <!--获取推荐列表，按照销量降序-->
+    <select id="selectRecommendList" resultType="com.cnzakii.tiedyer.entity.Spu">
+        SELECT *
+        FROM t_spu
+        WHERE create_time &lt; #{limitDateTime}
+        ORDER BY sales DESC
+        LIMIT #{limitSize}
+    </select>
 
+    <!--根据分类ID获取Spu列表，按照销量降序-->
+    <select id="selectListByCategory" resultType="com.cnzakii.tiedyer.entity.Spu">
+        SELECT *
+        FROM t_spu
+        WHERE category_id = #{categoryId}
+          AND create_time &lt; #{limitDateTime}
+        ORDER BY sales DESC
+        LIMIT #{limitSize}
+    </select>
 </mapper>

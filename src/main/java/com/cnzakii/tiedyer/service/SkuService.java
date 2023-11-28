@@ -2,6 +2,7 @@ package com.cnzakii.tiedyer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cnzakii.tiedyer.entity.Sku;
+import com.cnzakii.tiedyer.model.dto.shop.CommodityDetail;
 import com.cnzakii.tiedyer.model.dto.shop.SkuDTO;
 
 /**
@@ -13,6 +14,14 @@ import com.cnzakii.tiedyer.model.dto.shop.SkuDTO;
  * @since 2023-11-09
  */
 public interface SkuService extends IService<Sku> {
+
+    /**
+     * 根据spuId获取商品详情
+     *
+     * @param spuId spuId
+     * @return 商品详情
+     */
+    CommodityDetail getCommodityDetail(Long spuId);
 
 
     /**
@@ -43,5 +52,5 @@ public interface SkuService extends IService<Sku> {
     SkuDTO convertSkuToDTO(Sku sku);
 
 
-  
+
 }
