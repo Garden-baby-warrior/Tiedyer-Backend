@@ -84,6 +84,22 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
     }
 
     /**
+     * 全文检索
+     *
+     * @param key       检索关键词
+     * @param timestamp 限制时间戳,默认为当前时间戳
+     * @param pageSize  限制个数，默认为5
+     * @return 分页查询结果
+     */
+    @Override
+    public PageBean<Spu> getSpuResultByFullTextSearch(String key, Long timestamp, Integer pageSize) {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
+
+        List<Spu> spuList = spuMapper.selectListByFullTextSearch(key, dateTime, pageSize);
+        return getSpuPageBean(spuList);
+    }
+
+    /**
      * 获取pageBean对象
      *
      * @param spuList 查询结果列表
