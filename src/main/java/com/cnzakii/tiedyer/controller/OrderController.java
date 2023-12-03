@@ -5,6 +5,7 @@ import com.cnzakii.tiedyer.entity.Order;
 import com.cnzakii.tiedyer.exception.BusinessException;
 import com.cnzakii.tiedyer.model.dto.PageBean;
 import com.cnzakii.tiedyer.model.dto.order.OrderDTO;
+import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
 import com.cnzakii.tiedyer.model.request.order.CreateOrderRequest;
 import com.cnzakii.tiedyer.service.OrderService;
 import jakarta.annotation.Resource;
@@ -38,14 +39,14 @@ public class OrderController {
      * @return 订单编号
      */
     @PostMapping("/create")
-    public ResponseResult<String> createOrder(@Validated @RequestBody CreateOrderRequest request) {
+    public ResponseResult<OrderReceiptDTO> createOrder(@Validated @RequestBody CreateOrderRequest request) {
         // 获取用户Id
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = Long.valueOf((String) authentication.getPrincipal());
 
-        Long orderId = orderService.createOrder(userId, request.getSkuId(), request.getNum());
+        OrderReceiptDTO orderReceiptDTO = orderService.createOrder(userId, request.getSkuId(), request.getNum());
 
-        return ResponseResult.success(String.valueOf(orderId));
+        return ResponseResult.success(orderReceiptDTO);
     }
 
 
@@ -99,7 +100,7 @@ public class OrderController {
             timestamp = System.currentTimeMillis();
         }
 
-        PageBean<OrderDTO> result = orderService.getOrderList(userId, timestamp, statusCode);
+        PageBean<OrderDTO> result = orderService.getOrderPageResult(userId, timestamp, statusCode);
 
         return ResponseResult.success(result);
     }

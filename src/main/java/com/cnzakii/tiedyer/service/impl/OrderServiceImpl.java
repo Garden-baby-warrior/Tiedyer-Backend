@@ -1,6 +1,7 @@
 package com.cnzakii.tiedyer.service.impl;
 
 import cn.hutool.core.lang.Snowflake;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
@@ -11,6 +12,7 @@ import com.cnzakii.tiedyer.exception.BusinessException;
 import com.cnzakii.tiedyer.mapper.OrderMapper;
 import com.cnzakii.tiedyer.model.dto.PageBean;
 import com.cnzakii.tiedyer.model.dto.order.OrderDTO;
+import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
 import com.cnzakii.tiedyer.service.OrderService;
 import com.cnzakii.tiedyer.service.SkuService;
 import com.cnzakii.tiedyer.service.SpuService;
@@ -67,11 +69,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @param userId 用户id
      * @param skuId  商品id
      * @param num    商品数量
-     * @return 订单id
+     * @return 订单回执
      */
     @Override
     @Transactional
-    public Long createOrder(Long userId, Long skuId, Integer num) {
+    public OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num) {
         // 先查看库存是否充足
         Sku sku = skuService.getById(skuId);
         if (sku == null) {
@@ -107,7 +109,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         // TODO 增加产品销量
 
-        return orderId;
+
+        return new OrderReceiptDTO(new String[]{String.valueOf(orderId)}, order.getAmount());
     }
 
     /**
@@ -129,14 +132,48 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 
     /**
-     * 获取用户未支付订单列表
+     * 更新用户支付方式
+     *
+     * @param orders      订单id集合
+     * @param paymentType 支付方式 1微信、2支付宝、3银行卡
+     */
+    @Override
+    public void updateOrderPayStatus(Long[] orders, Integer paymentType) {
+        if (paymentType != 1 && paymentType != 2 && paymentType != 3) {
+            throw new BusinessException(ResponseStatus.REQUEST_ERROR, "支付方式错误");
+        }
+        int i = orderMapper.update(null, new LambdaUpdateWrapper<Order>()
+                .set(Order::getStatus, 2)
+                .set(Order::getPaymentType, paymentType)
+                .in(Order::getId, (Object[]) orders));
+
+        if (i != orders.length) {
+            throw new BusinessException(ResponseStatus.SERVER_ERROR, "支付订单失败");
+        }
+
+    }
+
+    /**
+     * 根据oderId集合获取对应的order信息集合
+     *
+     * @param orders oderId集合
+     * @return order信息集合
+     */
+    @Override
+    public List<Order> getOrderInfoList(Long[] orders) {
+        return orderMapper.selectList(new LambdaQueryWrapper<Order>().in(Order::getId, (Object[]) orders));
+    }
+
+
+    /**
+     * 获取用户订单查询结果
      *
      * @param userId    用户Id
      * @param timestamp 限制时间戳
      * @return 分页查询结果
      */
     @Override
-    public PageBean<OrderDTO> getOrderList(Long userId, Long timestamp, Integer... statusCode) {
+    public PageBean<OrderDTO> getOrderPageResult(Long userId, Long timestamp, Integer... statusCode) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
 
         List<Order> orderList = orderMapper.selectOrderList(userId, dateTime, 5, statusCode);

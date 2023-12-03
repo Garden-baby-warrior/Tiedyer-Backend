@@ -4,7 +4,9 @@ import com.cnzakii.tiedyer.common.http.ResponseResult;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Sku;
 import com.cnzakii.tiedyer.exception.BusinessException;
+import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
 import com.cnzakii.tiedyer.model.dto.shop.PreSelectedCommodityDTO;
+import com.cnzakii.tiedyer.model.request.order.CreateOrderListRequest;
 import com.cnzakii.tiedyer.model.request.shop.DeleteCommodityRequest;
 import com.cnzakii.tiedyer.model.request.shop.ShoppingInfoRequest;
 import com.cnzakii.tiedyer.service.ShoppingCartService;
@@ -95,6 +97,22 @@ public class ShoppingCartController {
         List<PreSelectedCommodityDTO> list = shoppingCartService.getCommodityListByUserId(userId);
 
         return ResponseResult.success(list);
+    }
+
+
+    /**
+     * 批量创建订单
+     *
+     * @param request 订单集合创建请求体
+     * @return 订单回执
+     */
+    @PostMapping("/create/order")
+    public ResponseResult<OrderReceiptDTO> creatOrderList(@RequestBody CreateOrderListRequest request) {
+        // 获取用户Id
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+        OrderReceiptDTO orderReceiptDTO = shoppingCartService.creatOrderList(userId, request.getSkuIds());
+        return ResponseResult.success(orderReceiptDTO);
     }
 
 

@@ -5,7 +5,7 @@ spring:
   application:
     name: tiedyer-backend
   profiles:
-    active: dev    # dev-开发环境 prod-生成环境
+    active: dev
   data:
     # redis 配置
     redis:
@@ -54,6 +54,7 @@ spring:
         enabled: false
       stat-view-servlet:
         enabled: false
+
 
 my-token:
   token-name: Authorization #token名字，包括redis的前缀，请求头读取的属性名,默认Authorization

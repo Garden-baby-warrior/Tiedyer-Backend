@@ -3,9 +3,11 @@ package com.cnzakii.tiedyer.service.impl;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Sku;
 import com.cnzakii.tiedyer.exception.BusinessException;
+import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
 import com.cnzakii.tiedyer.model.dto.shop.PreSelectedCommodityDTO;
 import com.cnzakii.tiedyer.model.dto.shop.SkuDTO;
 import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
+import com.cnzakii.tiedyer.service.OrderService;
 import com.cnzakii.tiedyer.service.ShoppingCartService;
 import com.cnzakii.tiedyer.service.SkuService;
 import com.cnzakii.tiedyer.service.SpuService;
@@ -13,6 +15,7 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static com.cnzakii.tiedyer.common.constant.RedisConstants.USER_SHOPPING_CART;
@@ -34,6 +37,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Resource
     private SpuService spuService;
+
+    @Resource
+    private OrderService orderService;
 
     /**
      * 将商品保存进购物车-累加商品数量
@@ -122,11 +128,52 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             // 获取产品信息
             SpuDTO spuDTO = spuService.getSpuDTObySpuId(sku.getSpuId());
             // 组装成PreSelectedCommodityDTO
-            PreSelectedCommodityDTO preSelectedCommodityDTO = new PreSelectedCommodityDTO(spuDTO,  skuDTO, Integer.parseInt((String) map.get(skuStr)));
+            PreSelectedCommodityDTO preSelectedCommodityDTO = new PreSelectedCommodityDTO(spuDTO, skuDTO, Integer.parseInt((String) map.get(skuStr)));
             result.add(preSelectedCommodityDTO);
         }
 
         return result;
+    }
+
+    /**
+     * 批量创建订单
+     *
+     * @param userId 用户id
+     * @param skuIds 商品id
+     * @return 订单回执
+     */
+    @Override
+    public OrderReceiptDTO creatOrderList(Long userId, Long[] skuIds) {
+        String key = USER_SHOPPING_CART + userId;
+        // 先尝试获取该用户的购物车信息
+        Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(key);
+
+        List<OrderReceiptDTO> list = new ArrayList<>();
+
+        for (Long skuId : skuIds) {
+            // 先获取商品数量
+            int num = Integer.parseInt((String) map.get(String.valueOf(skuId)));
+
+            if (num == 0) {
+                throw new BusinessException(ResponseStatus.REQUEST_ERROR, "购物车中不存在该商品");
+            }
+
+            // 创建订单
+            OrderReceiptDTO order = orderService.createOrder(userId, skuId, num);
+            list.add(order);
+            // 删除购物车中的商品信息
+            stringRedisTemplate.opsForHash().delete(key, String.valueOf(skuId));
+        }
+
+        List<String> orderIds = new ArrayList<>(list.size());
+        BigDecimal amount = BigDecimal.valueOf(0);
+
+        for (OrderReceiptDTO receiptDTO : list) {
+            orderIds.add(receiptDTO.getOrderId()[0]);
+            amount = amount.add(receiptDTO.getAmount());
+        }
+
+        return new OrderReceiptDTO(orderIds.toArray(String[]::new), amount);
     }
 
     /**
