@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.cnzakii.tiedyer.entity.Order;
 import com.cnzakii.tiedyer.model.dto.PageBean;
 import com.cnzakii.tiedyer.model.dto.order.OrderDTO;
+import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
+
+import java.util.List;
 
 /**
  * 订单接口
@@ -19,9 +22,9 @@ public interface OrderService extends IService<Order> {
      * @param userId 用户id
      * @param skuId  商品id
      * @param num    商品数量
-     * @return 订单id
+     * @return 订单回执
      */
-    Long createOrder(Long userId, Long skuId, Integer num);
+    OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num);
 
     /**
      * 更新订单状态
@@ -31,15 +34,31 @@ public interface OrderService extends IService<Order> {
      */
     void updateStatus(Long orderId, Integer statusCode);
 
+
     /**
-     * 获取用户订单列表
+     *  更新用户支付方式
+     * @param orders 订单id集合
+     * @param paymentType 支付方式 1微信、2支付宝、3银行卡
+     */
+    void updateOrderPayStatus(Long[] orders, Integer paymentType);
+
+
+    /**
+     * 根据oderId集合获取对应的order信息集合
+     * @param orders  oderId集合
+     * @return order信息集合
+     */
+    List<Order> getOrderInfoList(Long[] orders);
+
+    /**
+     * 获取用户订单分页查询结果
      *
      * @param userId     用户Id
      * @param timestamp  限制时间戳
      * @param statusCode 订单状态，允许多个
      * @return 分页查询结果
      */
-    PageBean<OrderDTO> getOrderList(Long userId, Long timestamp, Integer... statusCode);
+    PageBean<OrderDTO> getOrderPageResult(Long userId, Long timestamp, Integer... statusCode);
 
 
 }
