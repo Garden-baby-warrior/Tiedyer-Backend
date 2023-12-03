@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-11-09
  */
 @RestController
-@RequestMapping("/sku")
+@RequestMapping("/commodity/detail")
 public class SkuController {
 
     @Resource
@@ -29,7 +29,7 @@ public class SkuController {
      * @param spuId spuId
      * @return 商品详情
      */
-    @GetMapping("/detail/{spuId}")
+    @GetMapping("/{spuId}")
     public ResponseResult<CommodityDetail> getCommodityDetail(@PathVariable("spuId") Long spuId) {
         CommodityDetail result = skuService.getCommodityDetail(spuId);
         return ResponseResult.success(result);
