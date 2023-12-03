@@ -21,4 +21,15 @@
         ORDER BY sales DESC
         LIMIT #{limitSize}
     </select>
+
+    <!--全文检索-->
+    <select id="selectListByFullTextSearch" resultType="com.cnzakii.tiedyer.entity.Spu">
+        SELECT *
+        FROM t_spu
+        WHERE create_time &lt; #{limitDateTime}
+          AND MATCH(title) AGAINST(#{key})
+        ORDER BY MATCH(title) AGAINST(#{key}) DESC
+        LIMIT #{limitSize};
+    </select>
+
 </mapper>
