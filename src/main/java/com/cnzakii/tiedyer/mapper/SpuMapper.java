@@ -35,5 +35,15 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @param limitSize     限制查询个数
      * @return spu列表
      */
-    List<Spu> selectListByCategory(@Param("categoryId")Integer categoryId, @Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
+    List<Spu> selectListByCategory(@Param("categoryId") Integer categoryId, @Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
+
+    /**
+     * 全文检索
+     *
+     * @param key           检索关键词
+     * @param limitDateTime 限制时间
+     * @param limitSize     限制查询个数
+     * @return spu列表
+     */
+    List<Spu> selectListByFullTextSearch(@Param("key") String key, @Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
 }
