@@ -42,4 +42,14 @@ public interface SpuService extends IService<Spu> {
      * @return 分页查询结果
      */
     PageBean<Spu> getSpuResultByCategory(Integer categoryId, Long timestamp, Integer pageSize);
+
+    /**
+     * 全文检索
+     *
+     * @param key       检索关键词
+     * @param timestamp 限制时间戳,默认为当前时间戳
+     * @param pageSize  限制个数，默认为5
+     * @return 分页查询结果
+     */
+    PageBean<Spu> getSpuResultByFullTextSearch(String key, Long timestamp, Integer pageSize);
 }
