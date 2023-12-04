@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Order;
+import com.cnzakii.tiedyer.entity.ShippingAddress;
 import com.cnzakii.tiedyer.entity.Sku;
 import com.cnzakii.tiedyer.entity.Spu;
 import com.cnzakii.tiedyer.exception.BusinessException;
@@ -13,9 +14,7 @@ import com.cnzakii.tiedyer.mapper.OrderMapper;
 import com.cnzakii.tiedyer.model.dto.PageBean;
 import com.cnzakii.tiedyer.model.dto.order.OrderDTO;
 import com.cnzakii.tiedyer.model.dto.order.OrderReceiptDTO;
-import com.cnzakii.tiedyer.service.OrderService;
-import com.cnzakii.tiedyer.service.SkuService;
-import com.cnzakii.tiedyer.service.SpuService;
+import com.cnzakii.tiedyer.service.*;
 import com.cnzakii.tiedyer.util.MyBeanUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.cnzakii.tiedyer.common.constant.RabbitMQConstants.DELAY_EXCHANGE;
 import static com.cnzakii.tiedyer.common.constant.RabbitMQConstants.DELAY_QUEUE_ROUTING_KEY;
@@ -51,6 +51,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private SpuService spuService;
 
     @Resource
+    private LogisticsService logisticsService;
+
+    @Resource
+    private ShippingAddressService addressService;
+
+    @Resource
+    private SpuSpecService spuSpecService;
+
+    @Resource
     private OrderMapper orderMapper;
 
     @Resource
@@ -66,14 +75,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     /**
      * 创建订单
      *
-     * @param userId 用户id
-     * @param skuId  商品id
-     * @param num    商品数量
+     * @param userId    用户id
+     * @param skuId     商品id
+     * @param num       商品数量
+     * @param addressId 收货地址id
      * @return 订单回执
      */
     @Override
     @Transactional
-    public OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num) {
+    public OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num, Long addressId) {
         // 先查看库存是否充足
         Sku sku = skuService.getById(skuId);
         if (sku == null) {
@@ -82,6 +92,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         if (num > sku.getStock()) {
             throw new BusinessException(ResponseStatus.FAIL, "商品库存不足");
+        }
+
+        // 查看收货地址id是否正确
+        ShippingAddress address = addressService.getById(addressId);
+        if (address == null || !Objects.equals(address.getUserId(), userId)) {
+            throw new BusinessException(ResponseStatus.REQUEST_ERROR, "收货地址错误");
         }
 
         // 先减少库存
@@ -100,6 +116,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         orderMapper.insert(order);
 
+        // 添加进物流表
+        logisticsService.initLogisticsInfo(orderId,address);
+
         //  存入RabbitMQ，设置15分钟有效期
         rabbitTemplate.convertAndSend(DELAY_EXCHANGE, DELAY_QUEUE_ROUTING_KEY, String.valueOf(orderId), msg -> {
             // 设置消息的延迟时间
@@ -107,7 +126,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return msg;
         });
 
-        // TODO 增加产品销量
+        // 增加产品销量
+        spuSpecService.increaseSale(sku.getSpuId(),num);
 
 
         return new OrderReceiptDTO(new String[]{String.valueOf(orderId)}, order.getAmount());

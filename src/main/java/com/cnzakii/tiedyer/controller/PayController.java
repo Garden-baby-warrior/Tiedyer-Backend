@@ -5,6 +5,7 @@ import com.cnzakii.tiedyer.common.http.ResponseStatus;
 import com.cnzakii.tiedyer.entity.Order;
 import com.cnzakii.tiedyer.exception.BusinessException;
 import com.cnzakii.tiedyer.model.request.order.PayOrderRequest;
+import com.cnzakii.tiedyer.service.LogisticsService;
 import com.cnzakii.tiedyer.service.OrderService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
@@ -27,11 +28,14 @@ public class PayController {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private LogisticsService logisticsService;
+
     /**
      * 订单支付接口
      *
      * @param paymentType 支付方式 1微信、2支付宝、3银行卡
-     * @param request 支付请求
+     * @param request     支付请求
      * @return success
      */
     @PostMapping("/order/{paymentType}")
@@ -58,6 +62,9 @@ public class PayController {
 
         // 更新用户支付方式
         orderService.updateOrderPayStatus(orderIds, paymentType);
+
+        // 更新物流状态
+        logisticsService.updateLogisticsStatue(0, orderIds);
 
         return ResponseResult.success("支付成功");
     }

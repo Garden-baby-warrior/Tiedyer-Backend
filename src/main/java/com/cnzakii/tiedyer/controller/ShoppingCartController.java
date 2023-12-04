@@ -107,11 +107,12 @@ public class ShoppingCartController {
      * @return 订单回执
      */
     @PostMapping("/create/order")
-    public ResponseResult<OrderReceiptDTO> creatOrderList(@RequestBody CreateOrderListRequest request) {
+    public ResponseResult<OrderReceiptDTO> creatOrderList(@Validated @RequestBody CreateOrderListRequest request) {
         // 获取用户Id
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = Long.valueOf((String) authentication.getPrincipal());
-        OrderReceiptDTO orderReceiptDTO = shoppingCartService.creatOrderList(userId, request.getSkuIds());
+
+        OrderReceiptDTO orderReceiptDTO = shoppingCartService.creatOrderList(userId, request.getSkuIds(), request.getAddressId());
         return ResponseResult.success(orderReceiptDTO);
     }
 
