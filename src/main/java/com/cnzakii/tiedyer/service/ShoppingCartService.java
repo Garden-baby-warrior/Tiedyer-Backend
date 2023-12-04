@@ -45,11 +45,12 @@ public interface ShoppingCartService {
     /**
      * 批量创建订单
      *
-     * @param userId 用户id
-     * @param skuIds 商品id
+     * @param userId    用户id
+     * @param skuIds    商品id
+     * @param addressId 收货地址id
      * @return 订单回执
      */
-    OrderReceiptDTO creatOrderList(Long userId, Long[] skuIds);
+    OrderReceiptDTO creatOrderList(Long userId, Long[] skuIds, Long addressId);
 
 
     /**

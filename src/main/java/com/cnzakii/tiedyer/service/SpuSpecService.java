@@ -24,4 +24,11 @@ public interface SpuSpecService extends IService<SpuSpec> {
      */
     List<SpuSpecDTO> getSpecListBySpuId(Long spuId);
 
+    /**
+     * 增加销量接口
+     *
+     * @param spuId 产品id
+     * @param num   销售的数量
+     */
+    void increaseSale(Long spuId, Integer num);
 }

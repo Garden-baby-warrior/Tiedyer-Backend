@@ -138,12 +138,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     /**
      * 批量创建订单
      *
-     * @param userId 用户id
-     * @param skuIds 商品id
+     * @param userId    用户id
+     * @param skuIds    商品id
+     * @param addressId 收货地址id
      * @return 订单回执
      */
     @Override
-    public OrderReceiptDTO creatOrderList(Long userId, Long[] skuIds) {
+    public OrderReceiptDTO creatOrderList(Long userId, Long[] skuIds, Long addressId) {
         String key = USER_SHOPPING_CART + userId;
         // 先尝试获取该用户的购物车信息
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(key);
@@ -152,14 +153,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         for (Long skuId : skuIds) {
             // 先获取商品数量
-            int num = Integer.parseInt((String) map.get(String.valueOf(skuId)));
+            int num;
+            String numStr = (String) map.get(String.valueOf(skuId));
 
-            if (num == 0) {
+            if (numStr==null) {
                 throw new BusinessException(ResponseStatus.REQUEST_ERROR, "购物车中不存在该商品");
+            }else {
+                num = Integer.parseInt(numStr);
             }
 
             // 创建订单
-            OrderReceiptDTO order = orderService.createOrder(userId, skuId, num);
+            OrderReceiptDTO order = orderService.createOrder(userId, skuId, num, addressId);
             list.add(order);
             // 删除购物车中的商品信息
             stringRedisTemplate.opsForHash().delete(key, String.valueOf(skuId));

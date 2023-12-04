@@ -1,5 +1,6 @@
 package com.cnzakii.tiedyer.model.request.order;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serial;
@@ -20,5 +21,13 @@ public class CreateOrderListRequest implements Serializable {
     /**
      * 商品id集合
      */
+    @NotNull(message = "商品ID不能为null")
     private Long[] skuIds;
+
+
+    /**
+     * 收货地址Id
+     */
+    @NotNull(message = "收货地址ID不能为null")
+    private Long addressId;
 }
