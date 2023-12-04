@@ -19,12 +19,13 @@ public interface OrderService extends IService<Order> {
     /**
      * 创建订单
      *
-     * @param userId 用户id
-     * @param skuId  商品id
-     * @param num    商品数量
+     * @param userId    用户id
+     * @param skuId     商品id
+     * @param num       商品数量
+     * @param addressId 收货地址id
      * @return 订单回执
      */
-    OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num);
+    OrderReceiptDTO createOrder(Long userId, Long skuId, Integer num, Long addressId);
 
     /**
      * 更新订单状态
@@ -36,8 +37,9 @@ public interface OrderService extends IService<Order> {
 
 
     /**
-     *  更新用户支付方式
-     * @param orders 订单id集合
+     * 更新用户支付方式
+     *
+     * @param orders      订单id集合
      * @param paymentType 支付方式 1微信、2支付宝、3银行卡
      */
     void updateOrderPayStatus(Long[] orders, Integer paymentType);
@@ -45,7 +47,8 @@ public interface OrderService extends IService<Order> {
 
     /**
      * 根据oderId集合获取对应的order信息集合
-     * @param orders  oderId集合
+     *
+     * @param orders oderId集合
      * @return order信息集合
      */
     List<Order> getOrderInfoList(Long[] orders);

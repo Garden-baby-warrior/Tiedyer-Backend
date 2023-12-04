@@ -24,11 +24,10 @@ public class CodeGeneration {
     @Test
     void doCodeGeneration() {
         generation(
-                "jdbc:mysql://10.0.0.233:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai",
+                "jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai",
                 "root",
                 "4Qg-R2etwEvnv",
-                "t_badge",
-                "t_user_badge"
+                "t_logistics"
         );
     }
 
