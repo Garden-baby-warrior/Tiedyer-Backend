@@ -46,4 +46,12 @@ public interface SpuMapper extends BaseMapper<Spu> {
      * @return spu列表
      */
     List<Spu> selectListByFullTextSearch(@Param("key") String key, @Param("limitDateTime") LocalDateTime limitDateTime, @Param("limitSize") Integer limitSize);
+
+    /**
+     * 增加产品销量
+     *
+     * @param spuId 产品id
+     * @param num   增加的销量
+     */
+    int increaseSale(@Param("spuId")Long spuId, @Param("num")Integer num);
 }

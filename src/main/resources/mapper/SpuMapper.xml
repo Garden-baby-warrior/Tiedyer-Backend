@@ -3,6 +3,7 @@
 <mapper namespace="com.cnzakii.tiedyer.mapper.SpuMapper">
 
 
+
     <!--获取推荐列表，按照销量降序-->
     <select id="selectRecommendList" resultType="com.cnzakii.tiedyer.entity.Spu">
         SELECT *
@@ -31,5 +32,12 @@
         ORDER BY MATCH(title) AGAINST(#{key}) DESC
         LIMIT #{limitSize};
     </select>
+
+    <!--增加产品销量-->
+    <update id="increaseSale">
+        UPDATE t_spu
+        SET sales = sales + #{num}
+        WHERE id = #{spuId};
+    </update>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.cnzakii.tiedyer.rabbitMQListener;
 
 import com.cnzakii.tiedyer.entity.Order;
+import com.cnzakii.tiedyer.service.LogisticsService;
 import com.cnzakii.tiedyer.service.OrderService;
 import com.cnzakii.tiedyer.service.SkuService;
 import jakarta.annotation.Resource;
@@ -30,6 +31,9 @@ public class OrderTimeoutListener {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private LogisticsService logisticsService;
+
     /**
      * 订单超时监听
      */
@@ -51,6 +55,9 @@ public class OrderTimeoutListener {
 
         // 再改变订单状态
         orderService.updateStatus(orderId, 0);
+
+        // 最后删除物流信息
+        logisticsService.deleteLogisticsInfo(orderId);
 
         log.info("当前时间：{}，订单({})因支付超时取消", LocalDateTime.now(), orderId);
     }

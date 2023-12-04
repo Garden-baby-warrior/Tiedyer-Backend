@@ -31,4 +31,10 @@ public class CreateOrderRequest implements Serializable {
     @NotNull
     @Min(value = 1, message = "num无效")
     private Integer num;
+
+    /**
+     * 收货地址Id
+     */
+    @NotNull(message = "收货地址ID不能为null")
+    private Long addressId;
 }

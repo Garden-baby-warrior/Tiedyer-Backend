@@ -44,7 +44,7 @@ public class OrderController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = Long.valueOf((String) authentication.getPrincipal());
 
-        OrderReceiptDTO orderReceiptDTO = orderService.createOrder(userId, request.getSkuId(), request.getNum());
+        OrderReceiptDTO orderReceiptDTO = orderService.createOrder(userId, request.getSkuId(), request.getNum(),request.getAddressId());
 
         return ResponseResult.success(orderReceiptDTO);
     }
