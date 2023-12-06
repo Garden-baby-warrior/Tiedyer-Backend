@@ -3,8 +3,6 @@ package com.cnzakii.tiedyer.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -33,7 +31,6 @@ public class Badge implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
@@ -41,10 +38,17 @@ public class Badge implements Serializable {
      */
     private String name;
 
+
     /**
-     * 徽章图片路径
+     * 彩色头像地址-用户获得时显示
      */
-    private String image;
+    private String colorImage;
+
+
+    /**
+     * 灰色头像地址-用户未获得时显示
+     */
+    private String greyImage;
 
     /**
      * 徽章兑换需要的积分
