@@ -18,9 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -92,51 +91,66 @@ public class UserBadgeServiceImpl extends ServiceImpl<UserBadgeMapper, UserBadge
     @Override
     public BadgeResult getBadgeResult(Long userId) {
         // 根据userId 查找用户已经获取到的徽章列表
-        List<UserBadge> redeemedBadges = userBadgeMapper.selectList(new LambdaQueryWrapper<UserBadge>().eq(UserBadge::getUserId, userId));
+        List<UserBadge> redeemedBadges = Optional
+                .ofNullable(userBadgeMapper.selectList(new LambdaQueryWrapper<UserBadge>().eq(UserBadge::getUserId, userId)))
+                .orElse(new ArrayList<>());
+
+        // 将徽章列表转化成map集合
+        Map<Long, UserBadge> redeemedBadgeMap = new HashMap<>();
+
+        for (UserBadge userBadge : redeemedBadges) {
+            redeemedBadgeMap.put(userBadge.getBadgeId(), userBadge);
+        }
 
         // 查询所有的徽章列表
         List<Badge> list = badgeService.list();
-
         if (CollectionUtils.isEmpty(list)) {
             return new BadgeResult();
         }
 
-        List<BadgeDTO> result = new ArrayList<>();
-        for (Badge badge : list) {
-            // 先将badge转化成badgeDTO
-            BadgeDTO badgeDTO = MyBeanUtils.copyProperties(badge, BadgeDTO.class);
-            badgeDTO.setBadgeId(badge.getId());
-            // 判断该徽章是否被用户所获取
-            if (CollectionUtils.isEmpty(redeemedBadges)) {
-                badgeDTO.setRedeemed(false);
-            } else {
-                for (UserBadge userBadge : redeemedBadges) {
-                    if (Objects.equals(badge.getId(), userBadge.getBadgeId())) {
-                        badgeDTO.setRedeemed(true);
-                        badgeDTO.setRedeemTime(userBadge.getRedeemTime());
-                        break;
+        // 获取 result 列表
+        List<BadgeDTO> result = list.stream()
+                // 转换成BadgeDTO
+                .map(e -> convertBadgeToDTO(e, redeemedBadgeMap.get(e.getId())))
+                // 进行排序
+                .sorted((badge1, badge2) -> {
+                    if (badge1.isRedeemed() != badge2.isRedeemed()) {
+                        return badge1.isRedeemed() ? -1 : 1; // 如果 Collected 不同，将 Collected 为 true 的排在前面
+                    } else if (badge1.isRedeemed()) {
+                        // 如果 Collected 都为 true，按 CollectTime 降序排序
+                        return badge2.getRedeemTime().compareTo(badge1.getRedeemTime());
+                    } else {
+                        // 如果 Collected 都为 false，按 BadgeId 升序排序
+                        return badge1.getBadgeId().compareTo(badge2.getBadgeId());
                     }
-                }
-            }
-
-            // 写入List集合
-            result.add(badgeDTO);
-        }
-
-        // 排序 result 列表
-        result.sort((badge1, badge2) -> {
-            if (badge1.isRedeemed() != badge2.isRedeemed()) {
-                return badge1.isRedeemed() ? -1 : 1; // 如果 Collected 不同，将 Collected 为 true 的排在前面
-            } else if (badge1.isRedeemed()) {
-                // 如果 Collected 都为 true，按 CollectTime 降序排序
-                return badge2.getRedeemTime().compareTo(badge1.getRedeemTime());
-            } else {
-                // 如果 Collected 都为 false，按 BadgeId 升序排序
-                return badge1.getBadgeId().compareTo(badge2.getBadgeId());
-            }
-        });
+                }).collect(Collectors.toList());
 
 
-        return new BadgeResult(result, (redeemedBadges == null) ? 0 : redeemedBadges.size());
+        return new BadgeResult(result, redeemedBadges.size());
     }
+
+    /**
+     * 将Badge和UserBadge合并成BadgeDTO
+     *
+     * @param badge     Badge
+     * @param userBadge UserBadge
+     * @return BadgeDTO
+     */
+    private BadgeDTO convertBadgeToDTO(Badge badge, UserBadge userBadge) {
+        // 先将badge转化成badgeDTO
+        BadgeDTO badgeDTO = MyBeanUtils.copyProperties(badge, BadgeDTO.class);
+        badgeDTO.setBadgeId(badge.getId());
+
+        // 判断该徽章是否被用户所获取
+        if (userBadge == null) {
+            badgeDTO.setImage(badge.getGreyImage());
+            badgeDTO.setRedeemed(false);
+        } else {
+            badgeDTO.setImage(badge.getColorImage());
+            badgeDTO.setRedeemed(true);
+            badgeDTO.setRedeemTime(userBadge.getRedeemTime());
+        }
+        return badgeDTO;
+    }
+
 }
