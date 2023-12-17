@@ -26,7 +26,7 @@ public class CodeGeneration {
         generation(
                 "jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai",
                 "root",
-                "4Qg-R2etwEvnv",
+                "**secret**",
                 "t_logistics"
         );
     }
