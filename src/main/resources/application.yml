@@ -61,7 +61,7 @@ my-token:
   refresh-token:
     exp: 5184000    # RefreshToken过期时间(秒),默认5184000秒(60天)
   jwt:
-    secret: 9J1/Jb0eHIMPqG8wDfBsLvDHWc4abRYsKJqYsjY4oSk= # JWT 签名密钥，需要自己生成
+    secret: **secret** # JWT 签名密钥，需要自己生成
     exp: 7200     # JWT 过期时间(秒)，默认7200秒(2天)
 
 
@@ -69,8 +69,8 @@ api:
   # 微信登录API
   # 需要申请微信一键登录的API，否则将导致无法使用微信一键登录功能
   wx:
-    appId: wxecd0ce3eb243cc75     # 填入appId
-    secret: 6962c3b59df2eb5dd9d6cbfe1633d586    # T 填入secret
+    appId: **secret**     # 填入appId
+    secret: **secret**    # T 填入secret
     grantType: authorization_code
 
 

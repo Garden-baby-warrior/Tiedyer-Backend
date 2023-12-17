@@ -11,10 +11,10 @@ spring:
     host: 127.0.0.1          #RabbitMQ的IP地址，在同一docker网络下，填写容器名即可
     port: 5672
     username: tiedyer
-    password: XdE7.epvGfWiRrUYAQFw      #RabbitMQ对应用户密码
+    password: **secret**      #RabbitMQ对应用户密码
     virtual-host: /
   # 数据库配置
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai # 换成你的数据库IP地址，在同一docker网络下，填写容器名即可
     username: root
-    password: 4Qg-R2etwEvnv
+    password: **secret**
