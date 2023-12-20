@@ -22,14 +22,14 @@ EXPOSE ${EXPOSE_PORT}
 
 
 # JWT密钥
-ENV JWT_SECRET="TngFesjwnuqQ+ysZj8n6GGJEpf7k/wGzYS4zRPpUrJc="
+ENV JWT_SECRET="--secret--"
 # 微信小程序appId
 ENV APP_ID=""
 # 微信小程序appSecret
 ENV APP_SECRET=""
 
 # MySQL配置
-ENV MYSQL_ROOT_PASSWORD="4QgR2etwEvnv"
+ENV MYSQL_ROOT_PASSWORD="--secret--"
 ENV MYSQL_DATABASE="tiedyer"
 
 # Redis配置
@@ -37,7 +37,7 @@ ENV REDIS_PASSWORD=""
 
 # RabbitMQ配置
 ENV RABBITMQ_DEFAULT_USER=tiedyer
-ENV RABBITMQ_DEFAULT_PASS=XdE7.epvGWiRrUYAQFw
+ENV RABBITMQ_DEFAULT_PASS=--secret--
 
 CMD java -jar /root/tiedyer-backend.jar \
     --spring.profiles.active=prod \

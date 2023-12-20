@@ -101,7 +101,7 @@ The content of `.env` file is as follows:
 # Service port number
 EXPOSE_PORT=7576
 # JWT secret => Jwts.SIG.HS256.key().build();
-JWT_SECRET=TngFesjwnuqQ+ysZj8n6GGJEpf7k/wGzYS4zRPpUrJc=
+JWT_SECRET=--secret--
 # WeChat mini program: appId (Must be replaced)
 APP_ID=--secret--
 # WeChat mini program: appSecret (Must be replaced)
@@ -111,7 +111,7 @@ APP_SECRET=--secret--
 # port
 MYSQL_PORT=3306
 # root password
-MYSQL_ROOT_PASSWORD=4QgR2etwEvnv
+MYSQL_ROOT_PASSWORD=--secret--
 # new database
 MYSQL_DATABASE=tiedyer
 
@@ -119,13 +119,13 @@ MYSQL_DATABASE=tiedyer
 # port
 REDIS_PORT=6379
 # password
-REDIS_PASSWORD=123456
+REDIS_PASSWORD=--secret--
 
 #------------- RabbitMQ -------------
 # username
 RABBITMQ_DEFAULT_USER=tiedyer
 # password
-RABBITMQ_DEFAULT_PASS=XdE7.epvGWiRrUYAQFw
+RABBITMQ_DEFAULT_PASS=--secret--
 
 #------------- ProjectLocation -------------
 # Automatically replace when executing tiedyer.sh

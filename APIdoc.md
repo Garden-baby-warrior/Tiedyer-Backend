@@ -367,7 +367,7 @@ POST /shipping-address/save
 ```json
 {
   "contactName": "张三",
-  "contactPhone": "18123456789",
+  "contactPhone": "18--secret--789",
   "area": [
     "福建省",
     "福州市",
@@ -441,7 +441,7 @@ GET /shipping-address/list
       "addressId": "1722185131575349250",
       "userId": "1717583679276060672",
       "contactName": "张三",
-      "contactPhone": "18123456789",
+      "contactPhone": "18--secret--789",
       "area": [
         "福建省",
         "福州市",
@@ -454,7 +454,7 @@ GET /shipping-address/list
       "addressId": "1722183574934933505",
       "userId": "1717583679276060672",
       "contactName": "张三",
-      "contactPhone": "18123456789",
+      "contactPhone": "18--secret--789",
       "area": [
         "广东省",
         "广州市",
@@ -467,7 +467,7 @@ GET /shipping-address/list
       "addressId": "1722184110044237826",
       "userId": "1717583679276060672",
       "contactName": "张三",
-      "contactPhone": "18123456789",
+      "contactPhone": "18--secret--789",
       "area": [
         "福建省",
         "龙岩市",
@@ -513,7 +513,7 @@ PUT /shipping-address
 {
   "addressId": "1722185131575349250",
   "contactName": "张三",
-  "contactPhone": "18123456789",
+  "contactPhone": "18--secret--789",
   "area": [
     "福建省",
     "福州市",
@@ -1967,7 +1967,7 @@ GET /logistics/info/{orderId}
     "logisticsCompanies": null,
     "logisticsCode": null,
     "recipientName": "张三",
-    "recipientPhone": "18123456789",
+    "recipientPhone": "18--secret--789",
     "recipientArea": "福建省,福州市,闽侯县",
     "recipientAddress": "福州大学",
     "senderName": null,
@@ -1991,7 +1991,7 @@ GET /logistics/info/{orderId}
     "logisticsCompanies": "顺丰快递",
     "logisticsCode": "SF1629851402437",
     "recipientName": "张三",
-    "recipientPhone": "18123456789",
+    "recipientPhone": "18--secret--789",
     "recipientArea": "福建省,福州市,闽侯县",
     "recipientAddress": "福州大学",
     "senderName": "王五",
