@@ -5,16 +5,16 @@ spring:
       database: 0           # Redis数据库索引
       host: 127.0.0.1       # 换成你的Redis的IP地址，在同一docker网络下，填写容器名即可
       port: 6379
-      password:   # TODO 换成你的Redis密码
+      password:   # Redis密码
   # rabbitMQ 配置
   rabbitmq:
     host: 127.0.0.1          # RabbitMQ的IP地址，在同一docker网络下，填写容器名即可
     port: 5672
     username: tiedyer
-    password: --secret--   # TODO RabbitMQ对应用户密码
+    password: --secret--   #  RabbitMQ对应用户密码
     virtual-host: /
   # 数据库配置
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/tiedyer?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=Asia/Shanghai # 换成你的数据库IP地址
     username: root
-    password: --secret--  #TODO MySQL对应用户密码
+    password: --secret--  # MySQL对应用户密码

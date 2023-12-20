@@ -74,7 +74,7 @@ echo "Files copying completed!"
 echo "----------------------------------------"
 
 # 检查docker-compose.yml 文件
-docker-compose config -q
+docker compose config -q
 
 
 # 构建镜像

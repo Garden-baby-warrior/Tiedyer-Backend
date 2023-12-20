@@ -5,7 +5,7 @@ spring:
   application:
     name: tiedyer-backend
   profiles:
-    active: dev
+    active: dev  # TODO 切换对应的配置文件
   data:
     # redis 配置
     redis:
