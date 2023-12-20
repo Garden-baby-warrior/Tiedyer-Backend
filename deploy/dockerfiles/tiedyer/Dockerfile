@@ -22,7 +22,7 @@ EXPOSE ${EXPOSE_PORT}
 
 
 # JWT密钥
-ENV JWT_SECRET="--secret--"
+ENV JWT_SECRET=""
 # 微信小程序appId
 ENV APP_ID=""
 # 微信小程序appSecret
