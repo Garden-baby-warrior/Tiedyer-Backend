@@ -8,7 +8,7 @@ import com.cnzakii.tiedyer.entity.Category;
  * 产品分类表 服务类
  * </p>
  *
- * @author xyt
+ * @author zaki
  * @since 2023-11-12
  */
 public interface CategoryService extends IService<Category> {

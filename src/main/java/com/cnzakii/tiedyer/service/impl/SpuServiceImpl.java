@@ -24,7 +24,7 @@ import java.util.List;
  * 产品表-spu 服务实现类
  * </p>
  *
- * @author xyt
+ * @author zaki
  * @since 2023-11-12
  */
 @Service

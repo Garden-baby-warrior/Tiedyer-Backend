@@ -11,13 +11,9 @@ import org.springframework.stereotype.Service;
  * 产品分类表 服务实现类
  * </p>
  *
- * @author xyt
+ * @author zaki
  * @since 2023-11-12
  */
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
-
-//    Goods[] getGoodsByLable(String lable){
-//        return CategoryMapper.selectArrays(new LambdaQueryWrapper<Goods[]>().eq(Goods::getLable, lable));
-//    }
 }

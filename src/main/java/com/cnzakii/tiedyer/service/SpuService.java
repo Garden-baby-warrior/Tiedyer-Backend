@@ -10,7 +10,7 @@ import com.cnzakii.tiedyer.model.dto.shop.SpuDTO;
  * 产品表-spu 服务类
  * </p>
  *
- * @author xyt
+ * @author zaki
  * @since 2023-11-12
  */
 public interface SpuService extends IService<Spu> {

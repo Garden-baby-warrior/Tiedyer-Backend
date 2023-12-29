@@ -13,7 +13,7 @@ import java.util.List;
  * 产品表-spu Mapper 接口
  * </p>
  *
- * @author xyt
+ * @author zaki
  * @since 2023-11-12
  */
 @Mapper
